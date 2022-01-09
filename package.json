@@ -1,11 +1,11 @@
 {
   "name": "master.thesis.frontend",
   "version": "1.0.0",
-  "description": "A JavaScript project",
-  "main": "./dist/index.js",
+  "description": "Web application for master thesis",
+  "main": "main.js",
   "scripts": {
-    "start": "node serve -s build",
-    "build": "node ./node_modules/parcel-bundler/bin/cli build ./src/index.html --out-dir ./dist/",
+    "start": "node main.js",
+    "build": "node ./node_modules/parcel-bundler/bin/cli build views/index.html --out-dir ./dist/",
     "lint": "node ./node_modules/eslint/bin/eslint . --ext .js --fix"
   },
   "repository": {
@@ -29,6 +29,8 @@
   },
   "dependencies": {
     "core-js": "^3.20.2",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
     "node-fetch": "^3.1.0",
     "regenerator-runtime": "^0.13.9"
   }
