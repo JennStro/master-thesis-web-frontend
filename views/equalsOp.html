@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+  <title>Equals operator</title>
+</head>
+<body>
+<h1>Equals operator explanation</h1>
+<p>In Python, you can write:</p>
+
+
+<pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
+    [1, 2, 3] == [1, 2, 3]
+    </pre>
+
+<p>and it would be true. In Java on the other hand, this would not be true. When you use == in Java, it checks that the two objects are of the same instance. For example</p>
+
+<pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
+    Bag bag = new Bag();
+    System.out.println(bag == bag);
+</pre>
+
+<p>this would be true, because bag are of the same instance. However, if you try to do</p>
+
+<pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
+    Bag bag1 = new Bag();
+    Bag bag2 = new Bag();
+    System.out.println(bag1 == bag2);
+</pre>
+
+<p>this would be false because bag1 and bag2 are different instances. To check if bag1 and bag2 is equal, we have to implement the equals method in the class Bag and define what makes a bag equal
+  (maybe its contents?) and use the equals method. We have to override the equals method, because by default it uses the Object equals method, that uses == to check for equality.
+</p>
+
+<pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
+    Bag bag1 = new Bag();
+    Bag bag2 = new Bag();
+    System.out.println(bag1.equals(bag2));
+</pre>
+
+<p>Assuming we have an equals method in Bag that compares the bag contents, this would be true because both bags are empty.
+</p>
+
+</body>
+</html>
