@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>If statement</title>
+</head>
+<body>
+    <h1>If statement explanation</h1>
+    <p>In Python, you can write:</p>
+
+
+    <pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
+    if something:
+        something()
+        somethingElse()
+    </pre>
+
+    <p>and something() and somethingElse() would not be called if something were false. In Java, if you did the same thing:</p>
+
+    <pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
+    if (something)
+        something();
+        somethingElse();
+    </pre>
+
+    <p>Java reads this as</p>
+
+    <pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
+    if (something) {
+        something();
+    }
+    somethingElse();
+    </pre>
+
+    <p>because Java does not care about the indentation, but only reads the first statement after the if-statement. Since a statement can be
+    a block statement or a single statement, these if-statements are the same:
+    </p>
+
+    <pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
+    if (something) {
+        something();
+    }
+
+
+    if (something)
+        something();
+    </pre>
+
+    <p>but only when you have one statement! Therefore it is good practice to always use brackets when you are writing an if in Java.
+        If you want to see a real life example of this mistake, and how scary it could be, you should check out the "goto fail" bug.
+    </p>
+
+</body>
+</html>

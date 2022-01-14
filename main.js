@@ -8,6 +8,7 @@ app.set('view engine', 'html');
 app.engine('html', require('ejs').renderFile);
 
 app.get('/', (req, res) => res.render('index.html'));
+app.get('/ifstatement', (req, res) => res.render('ifstatement.html'));
 
 app.listen(port, () => console.log(`Listening on ${ port }`));
 
