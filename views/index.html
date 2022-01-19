@@ -21,6 +21,7 @@
 <script>
   async function postInputData() {
     const data = document.getElementById('codeInput').value;
+    document.getElementById("positionText").textContent = "Waiting for analyse....";
     await fetch('https://master-thesis-web-backend-prod.herokuapp.com/analyse', {
       method: 'POST',
       headers: {
