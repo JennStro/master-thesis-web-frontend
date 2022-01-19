@@ -46,10 +46,11 @@
             res => res.json()
     ).then( json =>
     {
-      console.log(json);
+      document.getElementById("explanationText").textContent = "";
+      document.getElementById("suggestionText").textContent = "";
+      document.getElementById("linkText").textContent = "";
+      document.getElementById("tipText").textContent = "";
       const obj = JSON.parse(JSON.stringify(json));
-      console.log(obj.containingClass);
-      console.log(obj);
 
       if (obj.status === "errors") {
         let positionString = "In class " + obj.containingClass;
