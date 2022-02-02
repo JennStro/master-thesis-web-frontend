@@ -39,7 +39,7 @@
     document.getElementById("linkText").textContent = "";
     document.getElementById("tipText").textContent = "";
     document.getElementById("urllink").textContent = "";
-    document.getElementById("urllink").href = {};
+    document.getElementById("urllink").href = "#";
     await fetch('https://master-thesis-web-backend-prod.herokuapp.com/analyse', {
       method: 'POST',
       headers: {
@@ -82,7 +82,10 @@
             let linkString = obj.moreInfoLink;
             document.getElementById("linkText").textContent = "More info? Check out:";
             document.getElementById("urllink").textContent = linkString;
-            document.getElementById("urllink").href = {linkString};
+            let indexOfSlash = linkString.lastIndexOf("/");
+            let file = linkString.substring(indexOfSlash);
+            console.log(file);
+            document.getElementById("urllink").href = file;
           }
           if (obj.tip) {
             let tip = obj.tip;

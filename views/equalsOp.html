@@ -27,22 +27,8 @@
     [1, 2, 3] == [1, 2, 3]
     </pre>
 
-<p>and it would be true, because Python calls the objects equals-method when you use ==. In Java on the other hand, this would not be true. When you use == in Java, it checks that the two objects are of the same instance (they have the same location in memory). For example</p>
-
-<pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
-    Bag bag = new Bag();
-    System.out.println(bag == bag);
-</pre>
-
-<p>this would be true, because bag are of the same instance and have the same memory location. However, if you try to do</p>
-
-<pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
-    Bag bag1 = new Bag();
-    Bag bag2 = new Bag();
-    System.out.println(bag1 == bag2);
-</pre>
-
-<p>this would be false because bag1 and bag2 are different instances. To compare two objects, we need to use the equals method:
+<p>and it would be true, because Python calls the equals-method when you use ==. In Java on the other hand, this would not be true. When you use == in Java, it checks that the two objects are of the same hav the same memory location. 
+    To compare two objects, we need to use the equals method:
 </p>
 
 <pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
