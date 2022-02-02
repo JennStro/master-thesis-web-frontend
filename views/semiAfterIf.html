@@ -20,59 +20,43 @@
 </style>
 <body style="background-color:#33475b">
     <h1>If statement explanation</h1>
-    <p>In Python, you can write:</p>
+    <p>In Python, you write an if-statement like:</p>
 
 
     <pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
     if condition:
-        method1()
-        method2()
+        method()
     </pre>
 
-    <p>and both method1() and method2() will be inside the if-body. In Java, if you did the same thing:</p>
+    <p>but there is no need for a colon (:) or semicolon (;) after the if statement in Java!
+        If we try to write the if-statement in Java with a semicolon to make it more like Python syntax, we get:
+    </p>
 
     <pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
-    if (condition)
-        method1();
-        method2();
+    if (condition);
+        method();
     </pre>
 
-    <p>only method1(); will be in the if-body. This is because Java does not care about indentation, and reads this as</p>
+    <p>Java reads this as</p>
 
     <pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
-    if (condition) {
-        method1();
-    }
-    method2();
+    if (condition) {} // Nothing happens even though "condition" is true!
+    method();
     </pre>
 
-    <p>Java only reads the first statement after the condition to be the body of the if-statement. A statement could be, for example, 
-    a block (curly braces), another if-statement or just a single statement like "method1();". This means that these if-statements are the same in Java:
+    <p>because Java uses semicolon to end a statement, the "if (condition);" becomes just a statement that does nothing.
+        The correct way to write the if-statement in Java is:
     </p>
 
     <pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
     if (condition) {
-        method1();
+        method();
     }
 
+    // or
 
     if (condition)
-        method1();
+        method();
     </pre>
-
-    <p>but only when you have one statement! Therefore it is good practice to always use brackets when you are writing an if in Java.
-        If you want to see a real life example of this mistake, and how scary it could be, you should check out the <a href="https://nakedsecurity.sophos.com/2014/02/24/anatomy-of-a-goto-fail-apples-ssl-bug-explained-plus-an-unofficial-patch/">"goto fail" bug</a>
-    </p>
-    
-    
-    <p>If you have more than one statement, you should write:</p>
-    
-
-    <pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
-        if (condition) {
-            method1();
-            method2();
-        }
-        </pre>
 </body>
 </html>

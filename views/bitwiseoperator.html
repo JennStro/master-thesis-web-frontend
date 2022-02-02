@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+  <title>Equals operator</title>
+</head>
+<style>
+    p {color:white; font-family: sans-serif}
+    h1 {color:white; font-family: sans-serif}
+    h2 {color:white; font-family: sans-serif}
+    h3 {color:white; font-family: sans-serif}
+    a:link {color:white; font-family: sans-serif}
+    a:hover {color:gray; font-family: sans-serif}
+    a:visited {color:white; font-family: sans-serif}
+    a:active {color:gray; font-family: sans-serif}
+    ul {color:white; font-family: sans-serif}
+    div {margin-left: 50px; margin-right: 50px;}
+    pre {color:white; border-left: 2px solid white; margin-left: 5px;}
+</style>
+<body style="background-color:#33475b">
+<h1>Bitwise operator explanation</h1>
+
+
+<p>The bitwise operators (& and |) are used to operate on bits in Java (and Python), you can read more about it <a href="https://en.wikipedia.org/wiki/Bitwise_operation">here</a>.</p>
+
+<p>In Python we use "and" or "or" as boolean operator:</p>
+
+<pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
+    if boolean1 and boolean2:
+        method();
+    </pre>
+
+<p>in Java, this looks like:</p>
+
+<pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
+    if (boolean1 && boolean2) {
+        method();
+    }
+</pre>
+
+<p>You could also use the bitwise operator for this:</p>
+
+<pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
+    if (boolean1 & boolean2) {
+        method();
+    }
+</pre>
+
+<p>but it comes with a catch: even though "boolean1" is false, "boolean2" is still checked. So the code
+</p>
+
+<pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
+    A a = null;
+    if (a != null & a.equals(b)) {
+        method();
+    }
+</pre>
+
+<p>will produce a NullPointerException, because "a.equals(b)" is checked even though a is null! To avoid this we use the boolean operator "&&" for "and" and "||" for or.</p>
+
+</body>
+</html>

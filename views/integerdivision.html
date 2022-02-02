@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+  <title>Equals operator</title>
+</head>
+<style>
+    p {color:white; font-family: sans-serif}
+    h1 {color:white; font-family: sans-serif}
+    h2 {color:white; font-family: sans-serif}
+    h3 {color:white; font-family: sans-serif}
+    a:link {color:white; font-family: sans-serif}
+    a:hover {color:gray; font-family: sans-serif}
+    a:visited {color:white; font-family: sans-serif}
+    a:active {color:gray; font-family: sans-serif}
+    ul {color:white; font-family: sans-serif}
+    div {margin-left: 50px; margin-right: 50px;}
+    pre {color:white; border-left: 2px solid white; margin-left: 5px;}
+</style>
+<body style="background-color:#33475b">
+<h1>Integer division explanation</h1>
+
+
+<p>When we divide two integers in Python, we get the decimal result:</p>
+
+<pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
+    print(7/5)
+    </pre>
+
+<p>The code above will print the number 1.4. But this is not the case in Java! Java rounds down to the lowest integer. We try the same in Java:</p>
+
+<pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
+    System.out.print(7/5);
+</pre>
+
+<p>but it gives an answer of 1. The "/" in Java gives the same answer as "//" does in Python. So what should we do? When we want a double (decimal) in return from Java, we 
+    also need to divide two doubles (decimals). So we need to cast the integers as doubles:
+</p>
+
+<pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
+    System.out.print((double)7/(double)5);
+</pre>
+
+</body>
+</html>

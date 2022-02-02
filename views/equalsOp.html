@@ -19,7 +19,7 @@
     pre {color:white; border-left: 2px solid white; margin-left: 5px;}
 </style>
 <body style="background-color:#33475b">
-<h1>Equals operator explanation</h1>
+<h1>Equals operator and equals method explanation</h1>
 <p>In Python, you can write:</p>
 
 
@@ -27,14 +27,14 @@
     [1, 2, 3] == [1, 2, 3]
     </pre>
 
-<p>and it would be true. In Java on the other hand, this would not be true. When you use == in Java, it checks that the two objects are of the same instance. For example</p>
+<p>and it would be true, because Python calls the objects equals-method when you use ==. In Java on the other hand, this would not be true. When you use == in Java, it checks that the two objects are of the same instance (they have the same location in memory). For example</p>
 
 <pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
     Bag bag = new Bag();
     System.out.println(bag == bag);
 </pre>
 
-<p>this would be true, because bag are of the same instance. However, if you try to do</p>
+<p>this would be true, because bag are of the same instance and have the same memory location. However, if you try to do</p>
 
 <pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
     Bag bag1 = new Bag();
@@ -42,8 +42,7 @@
     System.out.println(bag1 == bag2);
 </pre>
 
-<p>this would be false because bag1 and bag2 are different instances. To check if bag1 and bag2 is equal, we have to implement the equals method in the class Bag and define what makes a bag equal
-  (maybe its contents?) and use the equals method. We have to override the equals method, because by default it uses the Object equals method, that uses == to check for equality.
+<p>this would be false because bag1 and bag2 are different instances. To compare two objects, we need to use the equals method:
 </p>
 
 <pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
@@ -52,8 +51,29 @@
     System.out.println(bag1.equals(bag2));
 </pre>
 
-<p>Assuming we have an equals method in Bag that compares the bag contents, this would be true because both bags are empty.
-</p>
+<p>but if we do not implement the equals method in class Bag, this too will not work, we still compare memory locations! This is because every object in Java inherits from the type Object. Object's equals method compare memory locations, so Bag will do this as well. 
+    So, for the code above to work, we have to implement the equals method in the class Bag. Below is an example of how the equals method for Bag could look like:
+  </p>
+
+  <pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o) return true; //If two objects have the same memory location, they definetly are the same!
+
+        if (o == null || getClass() != o.getClass()) return false; //If one object is null or they have different classnames they are not the same.
+
+        Bag bag = (Bag) o; //We promise that this is a Bag object.
+
+        return size == bag.size; //Two bags are equal if they have the same size.
+    }
+</pre>
+
+<h2>So, when should you use == in Java?</h2>
+<ul>
+    <li>We use == to compare the primitive types in Java! (int, boolean, double, long...), because these are not objects.</li>
+    <li>When checking if an object is null, you need to use == (To avoid NullPointerException).</li>
+</ul>
 
 </body>
 </html>
