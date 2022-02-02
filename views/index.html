@@ -34,6 +34,12 @@
   async function postInputData() {
     const data = document.getElementById('codeInput').value;
     document.getElementById("positionText").textContent = "Waiting for analyse....";
+    document.getElementById("explanationText").textContent = "";
+    document.getElementById("suggestionText").textContent = "";
+    document.getElementById("linkText").textContent = "";
+    document.getElementById("tipText").textContent = "";
+    document.getElementById("urllink").textContent = "";
+    document.getElementById("urllink").href = {};
     await fetch('https://master-thesis-web-backend-prod.herokuapp.com/analyse', {
       method: 'POST',
       headers: {
