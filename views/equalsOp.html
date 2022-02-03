@@ -27,7 +27,7 @@
     [1, 2, 3] == [1, 2, 3]
     </pre>
 
-<p>and it would be true, because Python calls the equals-method when you use ==. In Java on the other hand, this would not be true. When you use == in Java, it checks that the two objects are of the same hav the same memory location. 
+<p>and it would be true, because Python calls the equals method when you use ==. In Java on the other hand, this would not be true. When you use == in Java, it checks that two objects have the same memory location. 
     To compare two objects, we need to use the equals method:
 </p>
 
@@ -37,8 +37,8 @@
     System.out.println(bag1.equals(bag2));
 </pre>
 
-<p>but if we do not implement the equals method in class Bag, this too will not work, we still compare memory locations! This is because every object in Java inherits from the type Object. Object's equals method compare memory locations, so Bag will do this as well. 
-    So, for the code above to work, we have to implement the equals method in the class Bag. Below is an example of how the equals method for Bag could look like:
+<p>For the code above to work, we have to implement the equals method in the class Bag. If we forget to implement the equals method, Bag will use the default equals method and we would still be comparing memory locations.
+    An example of the equals method for class Bag could be:
   </p>
 
   <pre style="font-family: Consolas,Monaco,'Lucida Console','Liberation Mono','DejaVu Sans Mono','Bitstream Vera Sans Mono','Courier New';">
@@ -55,10 +55,10 @@
     }
 </pre>
 
-<h2>So, when should you use == in Java?</h2>
+<h2>When should you use == in Java?</h2>
 <ul>
-    <li>We use == to compare the primitive types in Java! (int, boolean, double, long...), because these are not objects.</li>
-    <li>When checking if an object is null, you need to use == (To avoid NullPointerException).</li>
+    <li>We use == to compare the primitive types in Java (int, boolean, double, long...), because these are not objects.</li>
+    <li>When checking if an object is null, you need to use == to avoid NullPointerException.</li>
 </ul>
 
 </body>
