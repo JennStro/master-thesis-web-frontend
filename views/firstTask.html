@@ -82,7 +82,10 @@ public class TaskTwo {
 </body>
 <script>
 
-  const ignoredErrors = new Map([["TaskOne", ["master.thesis.backend.errors.MissingEqualsMethodError"]]]);
+  const ignoredErrors = new Map([
+      ["TaskOne", ["master.thesis.backend.errors.MissingEqualsMethodError"] ], 
+      ["TaskTwo", ["master.thesis.backend.errors.MissingEqualsMethodError"] ]
+    ]);
 
   async function postInputData() {
     const data = document.getElementById('codeInput').value;
