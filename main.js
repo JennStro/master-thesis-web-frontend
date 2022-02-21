@@ -15,5 +15,7 @@ app.get('/bitwiseoperator', (req, res) => res.render('bitwiseoperator.html'));
 app.get('/integerdivision', (req, res) => res.render('integerdivision.html'));
 app.get('/firstTask', (req, res) => res.render('firstTask.html'));
 
+app.use('/codemirrorscripts', express.static(__dirname + '/node_modules/codemirror/'));
+
 app.listen(port, () => console.log(`Listening on ${ port }`));
 

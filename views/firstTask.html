@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
   <title>Master thesis web first task</title>
-  <link rel="stylesheet" href="style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="codemirrorscripts/lib/codemirror.js"></script>
+  <link rel="stylesheet" href="codemirrorscripts/lib/codemirror.css">
+  <script src="codemirrorscripts/mode/javascript/javascript.js"></script>
 </head>
 <style>
   p {color:white; font-family: sans-serif}
@@ -81,6 +83,10 @@ public class TaskTwo {
     <p id="tipText"></p>
 </body>
 <script>
+
+var editor = CodeMirror.fromTextArea(document.getElementById("codeInput"), {
+    lineNumbers: true
+  });
 
   const ignoredErrors = new Map([
       ["TaskOne", ["master.thesis.backend.errors.MissingEqualsMethodError"] ], 
