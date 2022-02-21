@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="codemirrorscripts/lib/codemirror.js"></script>
   <link rel="stylesheet" href="codemirrorscripts/lib/codemirror.css">
-  <script src="codemirrorscripts/mode/python/python.js"></script>
+  <script src="codemirrorscripts/mode/clike/clike.js"></script>
 </head>
 <style>
   p {color:white; font-family: sans-serif}
@@ -85,8 +85,9 @@ public class TaskTwo {
 
 var editor = CodeMirror.fromTextArea(document.getElementById("codeInput"), {
     lineNumbers: true,
-    mode: "python"
-  });
+    mode: "text/x-java"
+    }
+);
 
   const ignoredErrors = new Map([
       ["TaskOne", ["master.thesis.backend.errors.MissingEqualsMethodError"] ], 
@@ -94,7 +95,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("codeInput"), {
     ]);
 
   async function postInputData() {
-    const data = document.getElementById('codeInput').value;
+    const data = editor.getValue();
     document.getElementById("positionText").textContent = "Running code....";
     document.getElementById("explanationText").textContent = "";
     document.getElementById("suggestionText").textContent = "";
@@ -166,7 +167,10 @@ function shouldIgnoreError(obj) {
 }
 
   async function analyseCode() {
-    const data = document.getElementById('codeInput').value;
+    editor.refresh();
+    
+
+    const data = editor.getValue();
     document.getElementById("positionText").textContent = "Running code....";
     document.getElementById("explanationText").textContent = "";
     document.getElementById("suggestionText").textContent = "";
@@ -239,8 +243,8 @@ function shouldIgnoreError(obj) {
 
   function nextTask() {
       document.getElementById("codeInput").value = document.getElementById("taskTwoText").value;
-      editor.value = document.getElementById("taskTwoText").value;
-      editor.refresh();
+      editor.setValue(document.getElementById("taskTwoText").value);
+      editor.update();
   }
  
   document.getElementById('buttonInput').addEventListener('click', postInputData, false);
