@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="codemirrorscripts/lib/codemirror.js"></script>
   <link rel="stylesheet" href="codemirrorscripts/lib/codemirror.css">
-  <script src="codemirrorscripts/mode/javascript/javascript.js"></script>
+  <script src="codemirrorscripts/mode/python/python.js"></script>
 </head>
 <style>
   p {color:white; font-family: sans-serif}
@@ -17,13 +17,12 @@
   a:visited {color:white; font-family: sans-serif}
   a:active {color:gray; font-family: sans-serif}
   ul {color:white; font-family: sans-serif}
-  div {margin-left: 50px; margin-right: 50px;}
 </style>
 <body style="background-color:#33475b">
   <h1>Master thesis web</h1>
   <div id="app"></div>
   <script src="../main.js"></script>
-    <textarea rows="20" cols="100" id="codeInput">
+    <textarea id="codeInput">
 public class TaskOne {
 
     public static void main(String[] args) {
@@ -85,7 +84,8 @@ public class TaskTwo {
 <script>
 
 var editor = CodeMirror.fromTextArea(document.getElementById("codeInput"), {
-    lineNumbers: true
+    lineNumbers: true,
+    mode: "python"
   });
 
   const ignoredErrors = new Map([
@@ -239,6 +239,8 @@ function shouldIgnoreError(obj) {
 
   function nextTask() {
       document.getElementById("codeInput").value = document.getElementById("taskTwoText").value;
+      editor.value = document.getElementById("taskTwoText").value;
+      editor.refresh();
   }
  
   document.getElementById('buttonInput').addEventListener('click', postInputData, false);
