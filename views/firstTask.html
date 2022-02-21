@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Master thesis web first task</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<style>
+  p {color:white; font-family: sans-serif}
+  h1 {color:white; font-family: sans-serif}
+  h2 {color:white; font-family: sans-serif}
+  h3 {color:white; font-family: sans-serif}
+  a:link {color:white; font-family: sans-serif}
+  a:hover {color:gray; font-family: sans-serif}
+  a:visited {color:white; font-family: sans-serif}
+  a:active {color:gray; font-family: sans-serif}
+  ul {color:white; font-family: sans-serif}
+  div {margin-left: 50px; margin-right: 50px;}
+</style>
+<body style="background-color:#33475b">
+  <h1>Master thesis web</h1>
+  <div id="app"></div>
+  <script src="../main.js"></script>
+    <textarea rows="20" cols="100" id="codeInput">
+public class TaskOne {
+
+    public static void main(String[] args) {
+        TaskOne taskOne = new TaskOne();
+        taskOne.doIt(false);
+    }
+
+    public void doIt(boolean value) {
+        // TODO: Change the if-statement such that nothing prints! (value should always be false).
+        if (value); {
+            System.out.println("Uh oh, this should not print when value is "+ value +"!");
+        }
+    }
+}
+</textarea><br>
+<textarea hidden id="taskTwoText">
+public class TaskTwo {
+    public static void main(String[] args) {
+        TaskTwo taskTwo = new TaskTwo();
+        taskTwo.doIt();
+    }
+
+    public class Bag {
+
+        private int size;
+
+        public Bag(int size) {
+            this.size = size;
+        }
+
+    }
+
+    public void doIt() {
+        // Two equal bags, because they have the same size.
+        Bag bag1 = new Bag(5);
+        Bag bag2 = new Bag(5);
+
+        // TODO: TASK 2
+        // TODO: Change the condition such that the bags are compared correctly. Implement the missing method in class Bag above.
+        if (bag1 == bag2) {
+            System.out.println("bag1 is equal to bag2, good job! :)");
+        } else {
+            System.out.println("bag1 is not equal to bag2!");
+        }
+    }
+
+}
+</textarea>
+    <button type="button" id="buttonInput">Check code</button>
+    <button type="button" id="buttonGetTips">Get tip</button>
+    <button type="button" id="buttonNextTask">Next task</button>
+    <p id="positionText"></p>
+    <p id="explanationText"></p>
+    <p id="suggestionText"></p>
+    <p id="linkText"></p>
+    <a href="#" id="urllink"></a>
+    <p id="tipText"></p>
+</body>
+<script>
+
+  const ignoredErrors = new Map([["TaskOne", ["master.thesis.backend.errors.MissingEqualsMethodError"]]]);
+
+  async function postInputData() {
+    const data = document.getElementById('codeInput').value;
+    document.getElementById("positionText").textContent = "Running code....";
+    document.getElementById("explanationText").textContent = "";
+    document.getElementById("suggestionText").textContent = "";
+    document.getElementById("linkText").textContent = "";
+    document.getElementById("tipText").textContent = "";
+    document.getElementById("urllink").textContent = "";
+    document.getElementById("urllink").href = "#";
+    await fetch('https://master-thesis-web-backend.herokuapp.com/runjava', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'raw',
+        'cache-control': 'no-cache',
+        'pragma': 'no-cache',
+      },
+      body: data,
+    }).then(
+            res => res.json()
+    ).then( json =>
+    {
+      document.getElementById("explanationText").textContent = "";
+      document.getElementById("suggestionText").textContent = "";
+      document.getElementById("linkText").textContent = "";
+      document.getElementById("tipText").textContent = "";
+     
+      const obj = JSON.parse(JSON.stringify(json));
+
+      console.log(obj);
+
+      document.getElementById("positionText").textContent = "Out: " + obj.out;
+
+      
+      }
+    );
+
+    await fetch('https://master-thesis-web-backend.herokuapp.com/analyse', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'raw',
+        'cache-control': 'no-cache',
+        'pragma': 'no-cache',
+      },
+      body: data,
+    }).then(
+            res => res.json()
+    ).then( json =>
+    {
+     
+      const obj = JSON.parse(JSON.stringify(json));
+
+      console.log(obj);
+
+      if (obj.hasException || obj.status == "errors" && !shouldIgnoreError(obj)) {
+        document.getElementById("explanationText").textContent = "Solved task: No";
+      } else {
+        document.getElementById("explanationText").textContent = "Solved task: Yes";
+      }
+    }
+    );
+}
+
+function shouldIgnoreError(obj) {
+    if (!ignoredErrors.has(obj.containingClass)) {
+        return false;
+    }
+    if (ignoredErrors.has(obj.containingClass) && ignoredErrors.get(obj.containingClass).includes(obj.id)) {
+        return true;
+    }
+    return false;
+}
+
+  async function analyseCode() {
+    const data = document.getElementById('codeInput').value;
+    document.getElementById("positionText").textContent = "Running code....";
+    document.getElementById("explanationText").textContent = "";
+    document.getElementById("suggestionText").textContent = "";
+    document.getElementById("linkText").textContent = "";
+    document.getElementById("tipText").textContent = "";
+    document.getElementById("urllink").textContent = "";
+    document.getElementById("urllink").href = "#";
+    await fetch('https://master-thesis-web-backend.herokuapp.com/analyse', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'raw',
+        'cache-control': 'no-cache',
+        'pragma': 'no-cache',
+      },
+      body: data,
+    }).then(
+            res => res.json()
+    ).then( json =>
+    {
+      document.getElementById("explanationText").textContent = "";
+      document.getElementById("suggestionText").textContent = "";
+      document.getElementById("linkText").textContent = "";
+      document.getElementById("tipText").textContent = "";
+     
+      const obj = JSON.parse(JSON.stringify(json));
+
+      if (obj.hasException) {
+        document.getElementById("positionText").textContent = "Something went wrong, we could not analyse your code. :(";
+        document.getElementById("explanationText").textContent = obj.hasException;
+        document.getElementById("suggestionText").textContent = "";
+        document.getElementById("linkText").textContent = "";
+        document.getElementById("tipText").textContent = "";
+      } else {
+
+        if (obj.status === "errors") {
+          let positionString = "In class " + obj.containingClass;
+          let explanationString = obj.explanation;
+          let suggestionString = obj.suggestion;
+          if (obj.lineNumber !== -1) {
+            positionString += ", on line number " + obj.lineNumber;
+          }
+          document.getElementById("positionText").textContent = positionString;
+          document.getElementById("explanationText").textContent = explanationString;
+          document.getElementById("suggestionText").textContent = "You should try " +suggestionString;
+          if (obj.moreInfoLink) {
+            let linkString = obj.moreInfoLink;
+            document.getElementById("linkText").textContent = "More info? Check out:";
+            document.getElementById("urllink").textContent = linkString;
+            let indexOfSlash = linkString.lastIndexOf("/");
+            let file = linkString.substring(indexOfSlash);
+            console.log(file);
+            document.getElementById("urllink").href = file;
+          }
+          if (obj.tip) {
+            let tip = obj.tip;
+            document.getElementById("tipText").textContent = tip;
+          }
+
+        } else {
+          document.getElementById("positionText").textContent = "Found no errors!";
+          document.getElementById("explanationText").textContent = "";
+          document.getElementById("suggestionText").textContent = "";
+          document.getElementById("linkText").textContent = "";
+          document.getElementById("tipText").textContent = "";
+        }
+      }
+    }
+    );
+  }
+
+  function nextTask() {
+      document.getElementById("codeInput").value = document.getElementById("taskTwoText").value;
+  }
+ 
+  document.getElementById('buttonInput').addEventListener('click', postInputData, false);
+  document.getElementById('buttonGetTips').addEventListener('click', analyseCode, false);
+  document.getElementById('buttonNextTask').addEventListener('click', nextTask, false);
+</script>
+</html>
