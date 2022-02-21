@@ -8,7 +8,7 @@
   "main": "main.js",
   "scripts": {
     "start": "node main.js",
-    "build": "node ./node_modules/parcel-bundler/bin/cli build views/index.html --out-dir ./dist/",
+    "build": "node ./node_modules/parcel-bundler/bin/cli ./node_modules/codemirror  build views/index.html --out-dir ./dist/",
     "lint": "node ./node_modules/eslint/bin/eslint . --ext .js --fix"
   },
   "repository": {
