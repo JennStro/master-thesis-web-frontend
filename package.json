@@ -2,7 +2,8 @@
   "name": "master.thesis.frontend",
   "version": "1.0.0",
   "engines": {
-    "node": "17.x"
+    "node": "17.x",
+    "npm": "8.x"
   },
   "description": "Web application for master thesis",
   "main": "main.js",
