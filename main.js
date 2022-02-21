@@ -1,3 +1,5 @@
+process.env.PWD = process.cwd();
+
 const path = require('path');
 
 var express = require('express')
@@ -8,9 +10,9 @@ const port = process.env.PORT || 3000;
 app.set('view engine', 'html');
 app.engine('html', require('ejs').renderFile);
 
-app.use('/node_modules/codemirror/lib/codemirror.js', express.static(path.join(__dirname, '/node_modules/codemirror/lib/codemirror.js')));
-app.use('/node_modules/codemirror/lib/codemirror.css', express.static(path.join(__dirname, '/node_modules/codemirror/lib/codemirror.css')));
-app.use('/node_modules/codemirror/mode/clike/clike.js', express.static(path.join(__dirname, '/node_modules/codemirror/mode/clike/clike.js')));
+app.use('/node_modules/codemirror/lib/codemirror.js', express.static(path.join(process.env.PWD, '/node_modules/codemirror/lib/codemirror.js')));
+app.use('/node_modules/codemirror/lib/codemirror.css', express.static(path.join(process.env.PWD, '/node_modules/codemirror/lib/codemirror.css')));
+app.use('/node_modules/codemirror/mode/clike/clike.js', express.static(path.join(process.env.PWD, '/node_modules/codemirror/mode/clike/clike.js')));
 
 app.get('/', (req, res) => res.render('index.html'));
 app.get('/ifstatement', (req, res) => res.render('ifstatement.html'));
