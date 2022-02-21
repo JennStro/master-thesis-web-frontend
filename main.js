@@ -1,3 +1,4 @@
+const path = require('path');
 
 var express = require('express')
 var app = express()
@@ -7,7 +8,7 @@ const port = process.env.PORT || 3000;
 app.set('view engine', 'html');
 app.engine('html', require('ejs').renderFile);
 
-app.use('/codemirrorscripts', express.static('node_modules/codemirror/'));
+app.use('/node_modules/codemirror', express.static(path.join(__dirname, '/node_modules/codemirror')));
 
 app.get('/', (req, res) => res.render('index.html'));
 app.get('/ifstatement', (req, res) => res.render('ifstatement.html'));
