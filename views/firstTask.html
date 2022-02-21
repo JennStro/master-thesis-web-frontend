@@ -22,7 +22,7 @@
   <h1>Master thesis web</h1>
   <div id="app"></div>
   <script src="../main.js"></script>
-    <textarea id="codeInput">
+    <textarea id="taskOneText">
 public class TaskOne {
 
     public static void main(String[] args) {
@@ -38,6 +38,7 @@ public class TaskOne {
     }
 }
 </textarea><br>
+
 <textarea hidden id="taskTwoText">
 public class TaskTwo {
     public static void main(String[] args) {
@@ -71,6 +72,80 @@ public class TaskTwo {
 
 }
 </textarea>
+
+<textarea hidden id="taskThreeText">
+public class TaskThree {
+    public static void main(String[] args) {
+        TaskThree taskThree = new TaskThree();
+        taskThree.doIt();
+    }
+
+    public void doIt() {
+        int a = 7;
+        int b = 5;
+
+        // TODO: TASK 3
+        // TODO: Change the condition such that "a/b" is equal to 1.4.
+        if (a/b == 1.4) {
+            System.out.println("Woho, a/b has the correct value!");
+        } else {
+            System.out.println("Oh no, a/b should be " + 1.4 + " but is " + a/b);
+        }
+    }
+
+}
+</textarea>
+
+<textarea hidden id="taskFourText">
+public class TaskFour {
+    public static void main(String[] args) {
+        TaskFour taskFour = new TaskFour();
+        taskFour.doIt();
+    }
+
+    public void doIt() {
+        // TODO: Change the if-condition "(strings.length > 0 & strings[0].equals("java"))" such that the ArrayIndexOutOfBoundsException is avoided. (The list *should* be empty!)
+        String[] strings = new String[]{};
+        if (strings.length > 0 & strings[0].equals("java")) {
+            System.out.println("Uh oh, we should have an empty list!");
+        } else {
+            System.out.println("Woho! You avoided the ArrayIndexOutOfBoundsException, good job! :)" );
+        }
+    }
+
+}
+</textarea>
+
+
+<textarea hidden id="taskFiveText">
+import java.util.ArrayList;
+
+public class TaskFive {
+    public static void main(String[] args) {
+        TaskFive taskFive = new TaskFive();
+        taskFive.doIt(false);
+    }
+
+    private ArrayList<Integer> list = new ArrayList<>();
+
+    public void doIt(boolean shouldAddToList) {
+        list = new ArrayList<>();
+
+        // TODO: Make changes to the if-statement below such that no numbers are added to the list. (Both numbers should be added if shouldAddToList is true!)
+        if (shouldAddToList)
+            list.add(1);
+            list.add(2);
+
+        // This should *not* be changed in this task!
+        if (list.isEmpty()) {
+            System.out.println("Woho, the list is empty!");
+        } else {
+            System.out.println("This list should be empty, but is " + list);
+        }
+    }
+}
+</textarea>
+
     <button type="button" id="buttonInput">Check code</button>
     <button type="button" id="buttonGetTips">Get tip</button>
     <button type="button" id="buttonNextTask">Next task</button>
@@ -83,7 +158,10 @@ public class TaskTwo {
 </body>
 <script>
 
-var editor = CodeMirror.fromTextArea(document.getElementById("codeInput"), {
+let taskNumber = 0;
+const taskNames = ["taskOneText", "taskTwoText", "taskThreeText", "taskFourText", "taskFiveText"];
+
+var editor = CodeMirror.fromTextArea(document.getElementById(taskNames[taskNumber]), {
     lineNumbers: true,
     mode: "text/x-java"
     }
@@ -91,7 +169,10 @@ var editor = CodeMirror.fromTextArea(document.getElementById("codeInput"), {
 
   const ignoredErrors = new Map([
       ["TaskOne", ["master.thesis.backend.errors.MissingEqualsMethodError"] ], 
-      ["TaskTwo", ["master.thesis.backend.errors.MissingEqualsMethodError"] ]
+      ["TaskTwo", ["master.thesis.backend.errors.MissingEqualsMethodError"] ],
+      ["TaskThree", ["master.thesis.backend.errors.MissingEqualsMethodError"] ],
+      ["TaskFour", ["master.thesis.backend.errors.MissingEqualsMethodError"] ],
+      ["TaskFive", ["master.thesis.backend.errors.MissingEqualsMethodError"] ]
     ]);
 
   async function postInputData() {
@@ -242,8 +323,8 @@ function shouldIgnoreError(obj) {
   }
 
   function nextTask() {
-      document.getElementById("codeInput").value = document.getElementById("taskTwoText").value;
-      editor.setValue(document.getElementById("taskTwoText").value);
+      taskNumber += 1;
+      editor.setValue(document.getElementById(taskNames[taskNumber]).value);
       editor.update();
   }
  
