@@ -7,7 +7,7 @@ const port = process.env.PORT || 3000;
 app.set('view engine', 'html');
 app.engine('html', require('ejs').renderFile);
 
-app.use('/codemirrorscripts', express.static('node_modules/codemirror/'));
+app.use('/codemirrorscripts', express.static(__dirname + '/node_modules/codemirror/'));
 
 app.get('/', (req, res) => res.render('index.html'));
 app.get('/ifstatement', (req, res) => res.render('ifstatement.html'));
