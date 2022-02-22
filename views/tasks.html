@@ -185,34 +185,72 @@ const taskNames = ["taskOneText", "taskTwoText", "taskThreeText", "taskFourText"
 
 document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
 
-function highlightSyntax() {
-  let editorContent = document.getElementById("editor").textContent;
-  let lines = editorContent.split("\n");
+let symbols = [" ", "\n", "{", "}", "(", ")"];
+let keywords = ["if", "public", "int", "boolean"];
+let comment = "//";
 
-  let newLines = lines.map(line => {
-    let words = line.split(" ");
-    if (words.includes("//")) {return `<span style="color:rgba(255, 200, 143,0.7);">${words.join(" ")}</span>`;};
-    if (line.includes("\"")) {
-      let startString = line.indexOf("\"");
-      let stopString = line.lastIndexOf("\"");
-      console.log(line.substring(startString, stopString));
-      return `${line.substring(0, startString)}<span style="color:rgba(184, 255, 178,0.7);">${line.substring(startString, stopString)}</span>${line.substring(stopString, line.length)}`;
-    }
-    let newWords = words.map(word => {
-      if (["if", "class", "public", "void", "int", "new", "else", "&", "&&", "|", "||"].includes(word)) {
-        return `<span style="color:rgba(190, 216, 209,0.7);">${word}</span>`;
-      } else {
-        return word;
+function tokenizer() {
+  let editorContent = document.getElementById("editor").textContent; 
+
+  let tokens = []
+  let word = "";
+  for (var i = 0; i < editorContent.length; i++) {
+    let token = editorContent.charAt(i);
+    if (symbols.includes(token)) {
+      if (word != "") {
+        tokens.push(word);
+        word="";
       }
-    });
-    console.log(newWords);
-    console.log(newWords.join(" "));
-    return newWords.join(" ");
-  }).join("\n");
+      tokens.push(token);
+    } else 
+    if (keywords.includes(word.concat(token))) {
+      tokens.push(word.concat(token));
+      word = "";
+    } else 
+    if (word.concat(token) === comment) {
+      word = word.concat(token);
 
-  console.log(newLines);
+      let nextToken = editorContent.charAt(i+1);
+      
+      console.log("THE NEXT TOKEN:"+ nextToken);
+      
+      while (nextToken != "\n") {
+        nextToken = editorContent.charAt(i+1);
+        word = word.concat(nextToken);
+        i = i+1;
+      }
 
-  document.getElementById("editor").innerHTML = newLines;
+      tokens.push(word);
+      word = "";
+    } else {
+      word = word.concat(token);
+    }
+  }
+  tokens.push(word);
+  console.log("TOKENS "+tokens);
+  return tokens;
+}
+
+tokenizer();
+
+function highlightSyntax() {
+  let tokens = tokenizer();
+  let coloredTokens = tokens.map(token => {
+    if (keywords.includes(token)) {
+      return  `<span style="color:rgba(255, 200, 237,0.7);">${token}</span>`;
+    };
+    if (symbols.includes(token)) {
+      return  `<span style="color:rgba(255, 200, 237,0.7);">${token}</span>`;
+    };
+    if (token.includes(comment)) {
+      return  `<span style="color:rgba(255, 99, 71,0.7);">${token}</span>`;
+    }
+    return token;
+  }); 
+
+  console.log(coloredTokens.join(""));
+
+  document.getElementById("editor").innerHTML = coloredTokens.join("");
 }
 
 function populateLineNumbers() {
