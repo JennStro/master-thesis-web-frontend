@@ -172,6 +172,16 @@ public class TaskFive {
 </body>
 <script type="module">
 
+function clearAllFields() {
+    document.getElementById("positionText").textContent = "";
+    document.getElementById("explanationText").textContent = "";
+    document.getElementById("suggestionText").textContent = "";
+    document.getElementById("linkText").textContent = "";
+    document.getElementById("tipText").textContent = "";
+    document.getElementById("urllink").textContent = "";
+  }
+
+
 let taskNumber = 0;
 const taskNames = ["taskOneText", "taskTwoText", "taskThreeText", "taskFourText", "taskFiveText"];
 
@@ -189,6 +199,8 @@ function populateLineNumbers() {
     }
   }
 
+
+
 populateLineNumbers();
 
   const ignoredErrors = new Map([
@@ -201,13 +213,8 @@ populateLineNumbers();
 
   async function postInputData() {
     const data = document.getElementById("editor").textContent;
+    clearAllFields();
     document.getElementById("positionText").textContent = "Running code....";
-    document.getElementById("explanationText").textContent = "";
-    document.getElementById("suggestionText").textContent = "";
-    document.getElementById("linkText").textContent = "";
-    document.getElementById("tipText").textContent = "";
-    document.getElementById("urllink").textContent = "";
-    document.getElementById("urllink").href = "#";
     await fetch('https://master-thesis-web-backend.herokuapp.com/runjava', {
       method: 'POST',
       headers: {
@@ -220,10 +227,7 @@ populateLineNumbers();
             res => res.json()
     ).then( json =>
     {
-      document.getElementById("explanationText").textContent = "";
-      document.getElementById("suggestionText").textContent = "";
-      document.getElementById("linkText").textContent = "";
-      document.getElementById("tipText").textContent = "";
+      clearAllFields();
      
       const obj = JSON.parse(JSON.stringify(json));
 
@@ -273,13 +277,8 @@ function shouldIgnoreError(obj) {
 
   async function analyseCode() {
     const data = document.getElementById("editor").textContent;
-    document.getElementById("positionText").textContent = "Running code....";
-    document.getElementById("explanationText").textContent = "";
-    document.getElementById("suggestionText").textContent = "";
-    document.getElementById("linkText").textContent = "";
-    document.getElementById("tipText").textContent = "";
-    document.getElementById("urllink").textContent = "";
-    document.getElementById("urllink").href = "#";
+    clearAllFields();
+    document.getElementById("positionText").textContent = "Analysing code....";
     await fetch('https://master-thesis-web-backend.herokuapp.com/analyse', {
       method: 'POST',
       headers: {
@@ -292,19 +291,14 @@ function shouldIgnoreError(obj) {
             res => res.json()
     ).then( json =>
     {
-      document.getElementById("explanationText").textContent = "";
-      document.getElementById("suggestionText").textContent = "";
-      document.getElementById("linkText").textContent = "";
-      document.getElementById("tipText").textContent = "";
+      clearAllFields();
      
       const obj = JSON.parse(JSON.stringify(json));
 
       if (obj.hasException) {
+        clearAllFields();
         document.getElementById("positionText").textContent = "Something went wrong, we could not analyse your code. :(";
         document.getElementById("explanationText").textContent = obj.hasException;
-        document.getElementById("suggestionText").textContent = "";
-        document.getElementById("linkText").textContent = "";
-        document.getElementById("tipText").textContent = "";
       } else {
 
         if (obj.status === "errors") {
@@ -332,30 +326,30 @@ function shouldIgnoreError(obj) {
           }
 
         } else {
+          clearAllFields();
           document.getElementById("positionText").textContent = "Found no errors!";
-          document.getElementById("explanationText").textContent = "";
-          document.getElementById("suggestionText").textContent = "";
-          document.getElementById("linkText").textContent = "";
-          document.getElementById("tipText").textContent = "";
         }
       }
     }
     );
   }
 
+
   function nextTask() {
-      taskNumber += 1;
-      if (taskNumber != 6) {
-        document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
-        populateLineNumbers();
+    clearAllFields();
+    taskNumber += 1;
+    if (taskNumber != 6) {
+      document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
+      populateLineNumbers();
     }
   }
 
   function previousTask() {
-      taskNumber -= 1;
-      if (taskNumber != -1) {
-        document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
-        populateLineNumbers();
+    clearAllFields();
+    taskNumber -= 1;
+    if (taskNumber != -1) {
+      document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
+      populateLineNumbers();
     }
   }
  
