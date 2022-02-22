@@ -479,9 +479,13 @@ function shouldIgnoreError(obj) {
 
   function nextTask() {
     clearAllFields();
+    console.log(taskNumber)
+
+    document.getElementById(taskNames[taskNumber]).value = document.getElementById("editor").textContent;
+
     taskNumber += 1;
-    if (taskNumber >= 6) {
-      taskNumber = 5;
+    if (taskNumber >= 5) {
+      taskNumber = 4;
     } 
     document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
     populateLineNumbers();
@@ -492,10 +496,14 @@ function shouldIgnoreError(obj) {
 
   function previousTask() {
     clearAllFields();
+    console.log(taskNumber)
+    document.getElementById(taskNames[taskNumber]).value = document.getElementById("editor").textContent;
+
     taskNumber -= 1;
     if (taskNumber <= -1) {
       taskNumber = 0
     }
+
     document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
     populateLineNumbers();
     observer.disconnect();
