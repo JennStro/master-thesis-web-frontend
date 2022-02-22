@@ -14,12 +14,28 @@
   a:visited {color:white; font-family: sans-serif}
   a:active {color:gray; font-family: sans-serif}
   ul {color:white; font-family: sans-serif}
+  .editor{width: fit-content; height: fit-content; white-space: pre; background-color: black; color:aliceblue; font-family: sans-serif}
+  .editorLines{width: fit-content; height: fit-content; white-space: pre; background-color: black; color:grey; font-family: sans-serif; border: 2px solid gray;}
+  .flex-container {
+    display: flex;
+}
 </style>
 <body style="background-color:#33475b">
   <h1>Master thesis web</h1>
   <div id="app"></div>
   <script src="../main.js"></script>
-    <textarea id="taskOneText">
+
+  <div class="flex-container">
+
+    <div class="editorLines" id="editorLines"></div>
+
+    <div class="editor" contenteditable="true" id="editor"></div>
+    
+   
+    
+  </div>
+
+    <textarea hidden id="taskOneText">
 public class TaskOne {
 
     public static void main(String[] args) {
@@ -155,15 +171,21 @@ public class TaskFive {
 </body>
 <script type="module">
 
-import CodeMirror from '/codemirror/lib/codemirror.js';
-
 let taskNumber = 0;
 const taskNames = ["taskOneText", "taskTwoText", "taskThreeText", "taskFourText", "taskFiveText"];
 
-var editor = CodeMirror.fromTextArea(document.getElementById(taskNames[taskNumber]), {
-    lineNumbers: true,
-    }
-);
+document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
+
+  var test = document.getElementById("editor").textContent;
+  console.log(test);
+  let lines = test.split("\n");
+  console.log(lines);
+  let linenumbers = lines.length;
+  console.log(linenumbers);
+
+  for (let i = 1; i < linenumbers; i++) {
+    document.getElementById("editorLines").textContent +=i + "\n";
+  }
 
   const ignoredErrors = new Map([
       ["TaskOne", ["master.thesis.backend.errors.MissingEqualsMethodError"] ], 
@@ -174,7 +196,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById(taskNames[taskNumbe
     ]);
 
   async function postInputData() {
-    const data = editor.getValue();
+    const data = document.getElementById("editor").textContent;
     document.getElementById("positionText").textContent = "Running code....";
     document.getElementById("explanationText").textContent = "";
     document.getElementById("suggestionText").textContent = "";
@@ -246,10 +268,7 @@ function shouldIgnoreError(obj) {
 }
 
   async function analyseCode() {
-    editor.refresh();
-    
-
-    const data = editor.getValue();
+    const data = document.getElementById("editor").textContent;
     document.getElementById("positionText").textContent = "Running code....";
     document.getElementById("explanationText").textContent = "";
     document.getElementById("suggestionText").textContent = "";
@@ -322,8 +341,7 @@ function shouldIgnoreError(obj) {
 
   function nextTask() {
       taskNumber += 1;
-      editor.setValue(document.getElementById(taskNames[taskNumber]).value);
-      editor.update();
+      document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
   }
  
   document.getElementById('buttonInput').addEventListener('click', postInputData, false);
