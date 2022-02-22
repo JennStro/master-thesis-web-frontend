@@ -191,9 +191,16 @@ function highlightSyntax() {
 
   let newLines = lines.map(line => {
     let words = line.split(" ");
+    if (words.includes("//")) {return `<span style="color:rgba(255, 200, 143,0.7);">${words.join(" ")}</span>`;};
+    if (line.includes("\"")) {
+      let startString = line.indexOf("\"");
+      let stopString = line.lastIndexOf("\"");
+      console.log(line.substring(startString, stopString));
+      return `${line.substring(0, startString)}<span style="color:rgba(184, 255, 178,0.7);">${line.substring(startString, stopString)}</span>${line.substring(stopString, line.length)}`;
+    }
     let newWords = words.map(word => {
-      if (word == "if") {
-        return `<span style="color:red;">${word}</span>`;
+      if (["if", "class", "public", "void", "int", "new", "else", "&", "&&", "|", "||"].includes(word)) {
+        return `<span style="color:rgba(190, 216, 209,0.7);">${word}</span>`;
       } else {
         return word;
       }
