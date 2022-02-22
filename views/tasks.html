@@ -177,16 +177,19 @@ const taskNames = ["taskOneText", "taskTwoText", "taskThreeText", "taskFourText"
 
 document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
 
-  var test = document.getElementById("editor").textContent;
-  console.log(test);
-  let lines = test.split("\n");
-  console.log(lines);
-  let linenumbers = lines.length;
-  console.log(linenumbers);
+function populateLineNumbers() {
+    let editorContent = document.getElementById("editor").textContent;
+    let lines = editorContent.split("\n");
+    let linenumbers = lines.length;
 
-  for (let i = 1; i < linenumbers; i++) {
-    document.getElementById("editorLines").textContent +=i + "\n";
+    document.getElementById("editorLines").textContent = "";
+    
+    for (let i = 1; i < linenumbers; i++) {
+      document.getElementById("editorLines").textContent +=i + "\n";
+    }
   }
+
+populateLineNumbers();
 
   const ignoredErrors = new Map([
       ["TaskOne", ["master.thesis.backend.errors.MissingEqualsMethodError"] ], 
@@ -344,18 +347,7 @@ function shouldIgnoreError(obj) {
       taskNumber += 1;
       if (taskNumber != 6) {
         document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
-        test = document.getElementById("editor").textContent;
-        console.log(test);
-        lines = test.split("\n");
-        console.log(lines);
-        linenumbers = lines.length;
-        console.log(linenumbers);
-
-        document.getElementById("editorLines").textContent="";
-        
-        for (let i = 1; i < linenumbers; i++) {
-          document.getElementById("editorLines").textContent +=i + "\n";
-        }
+        populateLineNumbers();
     }
   }
 
@@ -363,18 +355,7 @@ function shouldIgnoreError(obj) {
       taskNumber -= 1;
       if (taskNumber != -1) {
         document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
-        test = document.getElementById("editor").textContent;
-        console.log(test);
-        lines = test.split("\n");
-        console.log(lines);
-        linenumbers = lines.length;
-        console.log(linenumbers);
-
-        document.getElementById("editorLines").textContent="";
-        
-        for (let i = 1; i < linenumbers; i++) {
-          document.getElementById("editorLines").textContent +=i + "\n";
-        }
+        populateLineNumbers();
     }
   }
  
