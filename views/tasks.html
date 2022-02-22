@@ -31,8 +31,6 @@
 
     <div class="editor" contenteditable="true" id="editor"></div>
     
-   
-    
   </div>
 
     <textarea hidden id="taskOneText">
@@ -186,6 +184,27 @@ let taskNumber = 0;
 const taskNames = ["taskOneText", "taskTwoText", "taskThreeText", "taskFourText", "taskFiveText"];
 
 document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
+
+let editorContent = document.getElementById("editor").textContent;
+let lines = editorContent.split("\n");
+
+let newLines = lines.map(line => {
+  let words = line.split(" ");
+  let newWords = words.map(word => {
+    if (word == "if") {
+      return `<span style="color:red;">${word}</span>`;
+    } else {
+      return word;
+    }
+  });
+  console.log(newWords);
+  console.log(newWords.join(" "));
+  return newWords.join(" ");
+}).join("\n");
+
+console.log(newLines);
+
+document.getElementById("editor").innerHTML = newLines;
 
 function populateLineNumbers() {
     let editorContent = document.getElementById("editor").textContent;
