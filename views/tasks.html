@@ -257,22 +257,22 @@ function highlightSyntax() {
   let tokens = tokenizer();
   let coloredTokens = tokens.map(token => {
     if (keywords.includes(token)) {
-      return  `<span style="color:rgba(255, 200, 237,0.7);">${token}</span>`;
+      return  `<span style="color:rgba(138, 199, 255,0.7);">${token}</span>`;
     };
     if (symbols.includes(token)) {
-      return  `<span style="color:rgba(255, 250, 237,0.7);">${token}</span>`;
+      return  `<span style="color:rgba(138, 237, 255,0.7);">${token}</span>`;
     };
     if (token.includes(comment)) {
       return  `<span style="color:rgba(255, 99, 71,0.7);">${token}</span>`;
     }
     if (token.includes(string)) {
-      return  `<span style="color:rgba(60, 179, 113,0.7);">${token}</span>`;
+      return  `<span style="color:rgba(222, 255, 213,0.7);">${token}</span>`;
     }
     if (modifiers.includes(token)) {
-      return `<span style="color:rgba(255, 151, 111,0.7);">${token}</span>`;
+      return `<span style="color:rgba(138, 199, 255,0.7);">${token}</span>`;
     }
     if (types.includes(token)) {
-      return `<span style="color:rgba(138, 128, 255,0.7);">${token}</span>`;
+      return `<span style="color:rgba(222, 200, 255,0.7);">${token}</span>`;
     }
     return token;
   }); 
