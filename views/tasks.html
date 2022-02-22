@@ -185,9 +185,12 @@ const taskNames = ["taskOneText", "taskTwoText", "taskThreeText", "taskFourText"
 
 document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
 
-let symbols = [" ", "\n", "{", "}", "(", ")"];
-let keywords = ["if", "public", "int", "boolean"];
+let symbols = [" ", "\n", "{", "}", "(", ")", "[", "]"];
+let keywords = ["if", "new", "while", "class", "for", "else"];
 let comment = "//";
+let modifiers = ["public", "private", "protected", "static"]
+let types = ["int", "boolean", "double", "String", "ArrayList", "void"]
+let string = "\""
 
 function tokenizer() {
   let editorContent = document.getElementById("editor").textContent; 
@@ -203,16 +206,14 @@ function tokenizer() {
       }
       tokens.push(token);
     } else 
-    if (keywords.includes(word.concat(token))) {
+    if (keywords.includes(word.concat(token)) || modifiers.includes(word.concat(token)) || types.includes(word.concat(token))) {
       tokens.push(word.concat(token));
       word = "";
     } else 
-    if (word.concat(token) === comment) {
+    if (word.concat(token) == comment) {
       word = word.concat(token);
 
       let nextToken = editorContent.charAt(i+1);
-      
-      console.log("THE NEXT TOKEN:"+ nextToken);
       
       while (nextToken != "\n") {
         nextToken = editorContent.charAt(i+1);
@@ -222,7 +223,26 @@ function tokenizer() {
 
       tokens.push(word);
       word = "";
-    } else {
+    } else 
+    if (token == string) {
+      if (word != "") {
+        tokens.push(word);
+        word="";
+      }
+      word = word.concat(token);
+
+      let nextToken = editorContent.charAt(i+1);
+      
+      while (nextToken != "\"") {
+        nextToken = editorContent.charAt(i+1);
+        word = word.concat(nextToken);
+        i = i+1;
+      }
+
+      tokens.push(word);
+      word = "";
+    }
+    else {
       word = word.concat(token);
     }
   }
@@ -240,10 +260,19 @@ function highlightSyntax() {
       return  `<span style="color:rgba(255, 200, 237,0.7);">${token}</span>`;
     };
     if (symbols.includes(token)) {
-      return  `<span style="color:rgba(255, 200, 237,0.7);">${token}</span>`;
+      return  `<span style="color:rgba(255, 250, 237,0.7);">${token}</span>`;
     };
     if (token.includes(comment)) {
       return  `<span style="color:rgba(255, 99, 71,0.7);">${token}</span>`;
+    }
+    if (token.includes(string)) {
+      return  `<span style="color:rgba(60, 179, 113,0.7);">${token}</span>`;
+    }
+    if (modifiers.includes(token)) {
+      return `<span style="color:rgba(255, 151, 111,0.7);">${token}</span>`;
+    }
+    if (types.includes(token)) {
+      return `<span style="color:rgba(138, 128, 255,0.7);">${token}</span>`;
     }
     return token;
   }); 
