@@ -338,19 +338,21 @@ function shouldIgnoreError(obj) {
   function nextTask() {
     clearAllFields();
     taskNumber += 1;
-    if (taskNumber != 6) {
-      document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
-      populateLineNumbers();
-    }
+    if (taskNumber >= 6) {
+      taskNumber = 5;
+    } 
+    document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
+    populateLineNumbers();
   }
 
   function previousTask() {
     clearAllFields();
     taskNumber -= 1;
-    if (taskNumber != -1) {
-      document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
-      populateLineNumbers();
+    if (taskNumber <= -1) {
+      taskNumber = 0
     }
+    document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
+    populateLineNumbers();
   }
  
   document.getElementById('buttonInput').addEventListener('click', postInputData, false);
