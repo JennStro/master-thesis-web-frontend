@@ -1,16 +1,12 @@
-process.env.PWD = process.cwd();
-
 const path = require('path');
 
-var express = require('express')
-var app = express()
+var express = require('express');
+var app = express();
 
 const port = process.env.PORT || 3000;
 
 app.set('view engine', 'html');
 app.engine('html', require('ejs').renderFile);
-
-app.use(express.static(path.join(process.env.PWD, '/node_modules/codemirror')));
 
 app.get('/', (req, res) => res.render('index.html'));
 app.get('/ifstatement', (req, res) => res.render('ifstatement.html'));
