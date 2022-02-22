@@ -375,6 +375,10 @@ observer.observe(editor, config);
 
       document.getElementById("positionText").textContent = "Out: " + obj.out;
 
+      if (obj.error && obj.error != "Picked up JAVA_TOOL_OPTIONS: -XX:+UseContainerSupport -Xmx300m -Xss512k -XX:CICompilerCount=2 -Dfile.encoding=UTF-8 \n") {
+        document.getElementById("suggestionText").textContent = "Error: " + obj.error.replace("Picked up JAVA_TOOL_OPTIONS: -XX:+UseContainerSupport -Xmx300m -Xss512k -XX:CICompilerCount=2 -Dfile.encoding=UTF-8 \n", "");
+      }
+
       
       }
     );
