@@ -62,5 +62,3 @@ typings/
 
 .idea
 .cache
-dist
-.parcel-cache
