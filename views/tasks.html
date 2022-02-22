@@ -284,6 +284,7 @@ function highlightSyntax() {
 
 function populateLineNumbers() {
     let editorContent = document.getElementById("editor").textContent;
+    console.log(editorContent);
     let lines = editorContent.split("\n");
     let linenumbers = lines.length;
 
@@ -298,6 +299,29 @@ function populateLineNumbers() {
 
 populateLineNumbers();
 highlightSyntax();
+
+document.getElementById('editor').addEventListener('keydown', event => {
+  if (event.key === 'Enter') {
+    document.execCommand('insertLineBreak')
+    event.preventDefault()
+  }
+})
+
+const editor = document.getElementById('editor');
+const config = { attributes: true, childList: true, subtree: true };
+const callback = function(mutationsList, observer) {
+    for(const mutation of mutationsList) {
+        if (mutation.type === 'childList') {
+            console.log('A child node has been added or removed.');
+            populateLineNumbers();
+        }
+        else if (mutation.type === 'attributes') {
+            console.log('The ' + mutation.attributeName + ' attribute was modified.');
+        }
+    }
+};
+const observer = new MutationObserver(callback);
+observer.observe(editor, config);
 
   const ignoredErrors = new Map([
       ["TaskOne", ["master.thesis.backend.errors.MissingEqualsMethodError"] ], 
