@@ -357,7 +357,7 @@ observer.observe(editor, config);
     const data = document.getElementById("editor").textContent;
     clearAllFields();
     document.getElementById("positionText").textContent = "Running code....";
-    await fetch('https://master-thesis-web-backend.herokuapp.com/runjava', {
+    await fetch('https://master-thesis-web-backend-prod.herokuapp.com/runjava', {
       method: 'POST',
       headers: {
         'Content-Type': 'raw',
@@ -381,7 +381,7 @@ observer.observe(editor, config);
       }
     );
 
-    await fetch('https://master-thesis-web-backend.herokuapp.com/analyse', {
+    await fetch('https://master-thesis-web-backend-prod.herokuapp.com/analyse', {
       method: 'POST',
       headers: {
         'Content-Type': 'raw',
