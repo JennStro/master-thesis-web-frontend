@@ -9,7 +9,7 @@
   "main": "main.js",
   "scripts": {
     "start": "node main.js",
-    "build": "npx parcel views/index.html",
+    "build": "node ./node_modules/parcel-bundler/bin/cli build views/index.html --out-dir ./dist/",
     "lint": "node ./node_modules/eslint/bin/eslint . --ext .js --fix"
   },
   "repository": {
