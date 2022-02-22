@@ -4,9 +4,6 @@
   <title>Master thesis web</title>
   <link rel="stylesheet" href="style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="lib/codemirror.js"></script>
-  <link rel="stylesheet" href="lib/codemirror.css">
-  <script src="mode/clike/clike.js"></script>
 </head>
 <style>
   p {color:white; font-family: sans-serif}
@@ -33,7 +30,8 @@
     <a href="#" id="urllink"></a>
     <p id="tipText"></p>
 </body>
-<script>
+<script type="module">
+
   async function postInputData() {
     const data = document.getElementById('codeInput').value;
     document.getElementById("positionText").textContent = "Waiting for analyse....";
