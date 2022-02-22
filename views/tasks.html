@@ -15,7 +15,7 @@
   a:active {color:gray; font-family: sans-serif}
   ul {color:white; font-family: sans-serif}
   .editor{width: fit-content; height: fit-content; white-space: pre; background-color: black; color:aliceblue; font-family: sans-serif; border: 2px solid gray;}
-  .console{width: 1000px; height: fit-content; white-space: pre; background-color: black; color:aliceblue; font-family: sans-serif; border: 2px solid gray;}
+  .console{width: 1500px; height: fit-content; white-space: pre; background-color: black; color:aliceblue; font-family: sans-serif; border: 2px solid gray;}
   .editorLines{width: fit-content; height: fit-content; white-space: pre; background-color: black; color:grey; font-family: sans-serif; border: 2px solid gray;}
   .flex-container {
     display: flex;
@@ -327,6 +327,7 @@ document.getElementById('editor').addEventListener('keydown', event => {
 const config = {childList: true, subtree: true, CharacterData: true, attributes: true };
 const callback = function(mutationsList, observer) {
     for(const mutation of mutationsList) {
+      populateLineNumbers();
         if (mutation.type === 'childList') {
             console.log('Something changed!');
             populateLineNumbers();
