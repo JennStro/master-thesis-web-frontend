@@ -352,6 +352,11 @@ observer.observe(editor, config);
     ]);
 
   async function postInputData() {
+
+    observer.disconnect();
+    highlightSyntax();
+    observer.observe(editor, config);
+
     const data = document.getElementById("editor").textContent;
     clearAllFields();
     document.getElementById("positionText").textContent = "Running code....";
