@@ -257,8 +257,6 @@ function tokenizer() {
   return tokens;
 }
 
-tokenizer();
-
 function highlightSyntax() {
   let tokens = tokenizer();
   let coloredTokens = tokens.map(token => {
@@ -282,9 +280,6 @@ function highlightSyntax() {
     }
     return token;
   }); 
-
-  console.log(coloredTokens.join(""));
-
   document.getElementById("editor").innerHTML = coloredTokens.join("");
 }
 
@@ -329,18 +324,9 @@ const config = {childList: true, subtree: true, CharacterData: true, attributes:
 const callback = function(mutationsList, observer) {
     for(const mutation of mutationsList) {
       populateLineNumbers();
-        if (mutation.type === 'childList') {
-            console.log('Something changed!');
-            populateLineNumbers();
-            let editorContent = document.getElementById("editor").textContent;
-            console.log(editorContent);
-        }
-        if (mutation.type==='attributes') {
-            console.log('Something changed style!');
-            populateLineNumbers();
-            let editorContent = document.getElementById("editor").textContent;
-            console.log(editorContent);
-        }
+      observer.disconnect();
+      highlightSyntax();
+      observer.observe(editor, config);
   }
 };
 const observer = new MutationObserver(callback);
