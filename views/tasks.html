@@ -195,6 +195,7 @@ let comment = "//";
 let modifiers = ["public", "private", "protected", "static"]
 let types = ["int", "boolean", "double", "String", "ArrayList", "void"]
 let string = "\""
+let operators = ["+", "-", "++", "--", "&", "|", "&&", "||", "=", "=="]
 
 function tokenizer() {
   let editorContent = document.getElementById("editor").textContent; 
@@ -203,7 +204,7 @@ function tokenizer() {
   let word = "";
   for (var i = 0; i < editorContent.length; i++) {
     let token = editorContent.charAt(i);
-    if (symbols.includes(token) || spaceAndNewLine.includes(token)) {
+    if (symbols.includes(token) || spaceAndNewLine.includes(token) || operators.includes(token)) {
       if (word != "") {
         tokens.push(word);
         word="";
@@ -212,7 +213,9 @@ function tokenizer() {
     } else 
     if (keywords.includes(word.concat(token)) 
     || modifiers.includes(word.concat(token)) 
-    || types.includes(word.concat(token))) {
+    || types.includes(word.concat(token))
+    || operators.includes(word.concat(token))) {
+
       tokens.push(word.concat(token));
       word = "";
     } else 
@@ -277,6 +280,9 @@ function highlightSyntax() {
     }
     if (types.includes(token)) {
       return `<span style="color:rgba(222, 200, 255,0.7);">${token}</span>`;
+    }
+    if (operators.includes(token)) {
+      return `<span style="color:rgba(255, 235, 182,0.7);">${token}</span>`;
     }
     return token;
   }); 
