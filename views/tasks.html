@@ -329,28 +329,26 @@ observer.observe(editor, config);
 document.getElementById('editor').addEventListener('keydown', event => {
   if (event.key === 'Enter') {
     observer.disconnect();
-    document.execCommand('insertHTML', false, '\n');
+    document.execCommand('insertText', false, '\n');
     populateLineNumbers();
     event.preventDefault()
     observer.observe(editor, config);
   }
   if (event.key === 'Tab') {
     observer.disconnect();
-    document.execCommand('insertHTML', false, '\t');
+    document.execCommand('insertText', false, '\t');
     event.preventDefault()
     observer.observe(editor, config);
   }
   if (event.key === 'Space') {
     observer.disconnect();
-    document.execCommand('insertHTML', false, '\s');
+    document.execCommand('insertText', false, '\s');
     event.preventDefault()
     observer.observe(editor, config);
   }
   if (event.key === 'Backspace') {
-    observer.disconnect();
-
+    event.preventDefault();
     populateLineNumbers();
-    observer.observe(editor, config);
   }
 })
 
