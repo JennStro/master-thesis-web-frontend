@@ -14,7 +14,7 @@
   a:visited {color:white; font-family: sans-serif;}
   a:active {color:gray; font-family: sans-serif;}
   ul {color:white; font-family: sans-serif}
-  .editor{width: fit-content; height: fit-content; white-space: pre; background-color: black; color:aliceblue; font-family: Verdana, sans-serif;; border: 2px solid gray;}
+  .editor{width: fit-content; height: fit-content; min-width: 1000px; min-height: 50px; white-space: pre; background-color: black; color:aliceblue; font-family: Verdana, sans-serif;; border: 2px solid gray;}
   .console{width: 1500px; height: fit-content; white-space: pre; background-color: black; color:aliceblue; font-family: Verdana, sans-serif; border: 2px solid gray;}
   .editorLines{width: fit-content; height: fit-content; white-space: pre; background-color: black; color:grey; font-family: Verdana, sans-serif; border: 2px solid gray;}
   .flex-container {
@@ -28,7 +28,7 @@
 
   <div class="flex-container">
 
-    <div class="editorLines" id="editorLines"></div>
+    <div class="editorLines" id="editorLines" (paste)="pasteInEditor($event)"></div>
 
     <div class="editor" contenteditable="true" spellcheck="false" autocomplete='off' id="editor"></div>
     
@@ -258,6 +258,14 @@ function tokenizer() {
   tokens.push(word);
   console.log("TOKENS "+tokens);
   return tokens;
+}
+
+function pasteInEditor(event) {
+  event.preventDefault();
+  const clipboardData = event.clipboardData;
+  const pastedText = clipboardData.getData('text');
+  console.log(pastedText);
+  window.document.execCommand('insertText', false, pastedText);
 }
 
 function highlightSyntax() {
