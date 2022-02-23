@@ -436,7 +436,7 @@ function shouldIgnoreError(obj) {
     const data = document.getElementById("editor").textContent;
     clearAllFields();
     document.getElementById("positionText").textContent = "Analysing code....";
-    await fetch('https://master-thesis-web-backend.herokuapp.com/analyse', {
+    await fetch('https://master-thesis-web-backend-prod.herokuapp.com/analyse', {
       method: 'POST',
       headers: {
         'Content-Type': 'raw',
