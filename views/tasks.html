@@ -14,9 +14,9 @@
   a:visited {color:white; font-family: sans-serif;}
   a:active {color:gray; font-family: sans-serif;}
   ul {color:white; font-family: sans-serif}
-  .editor{width: fit-content; height: fit-content; white-space: pre; background-color: black; color:aliceblue; font-family: sans-serif; border: 2px solid gray;}
-  .console{width: 1500px; height: fit-content; white-space: pre; background-color: black; color:aliceblue; font-family: sans-serif; border: 2px solid gray;}
-  .editorLines{width: fit-content; height: fit-content; white-space: pre; background-color: black; color:grey; font-family: sans-serif; border: 2px solid gray;}
+  .editor{width: fit-content; height: fit-content; white-space: pre; background-color: black; color:aliceblue; font-family: Verdana, sans-serif;; border: 2px solid gray;}
+  .console{width: 1500px; height: fit-content; white-space: pre; background-color: black; color:aliceblue; font-family: Verdana, sans-serif; border: 2px solid gray;}
+  .editorLines{width: fit-content; height: fit-content; white-space: pre; background-color: black; color:grey; font-family: Verdana, sans-serif; border: 2px solid gray;}
   .flex-container {
     display: flex;
 }
@@ -188,7 +188,8 @@ let shouldUpdateEditor = true;
 
 document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
 
-let symbols = [" ", "\n", "{", "}", "(", ")", "[", "]"];
+let symbols = ["{", "}", "(", ")", "[", "]"];
+let spaceAndNewLine = [" ", "\n"]
 let keywords = ["if", "new", "while", "class", "for", "else"];
 let comment = "//";
 let modifiers = ["public", "private", "protected", "static"]
@@ -202,14 +203,16 @@ function tokenizer() {
   let word = "";
   for (var i = 0; i < editorContent.length; i++) {
     let token = editorContent.charAt(i);
-    if (symbols.includes(token)) {
+    if (symbols.includes(token) || spaceAndNewLine.includes(token)) {
       if (word != "") {
         tokens.push(word);
         word="";
       }
       tokens.push(token);
     } else 
-    if (keywords.includes(word.concat(token)) || modifiers.includes(word.concat(token)) || types.includes(word.concat(token))) {
+    if (keywords.includes(word.concat(token)) 
+    || modifiers.includes(word.concat(token)) 
+    || types.includes(word.concat(token))) {
       tokens.push(word.concat(token));
       word = "";
     } else 
@@ -374,20 +377,14 @@ observer.observe(editor, config);
     ).then( json =>
     {
       clearAllFields();
-
       console.log(json)
-     
       const obj = JSON.parse(JSON.stringify(json));
-
       console.log(obj);
-
       document.getElementById("positionText").textContent = "Out: " + obj.out;
 
       if (obj.error && obj.error != "Picked up JAVA_TOOL_OPTIONS: -XX:+UseContainerSupport -Xmx300m -Xss512k -XX:CICompilerCount=2 -Dfile.encoding=UTF-8 \n") {
         document.getElementById("suggestionText").textContent = "Error: " + obj.error.replace("Picked up JAVA_TOOL_OPTIONS: -XX:+UseContainerSupport -Xmx300m -Xss512k -XX:CICompilerCount=2 -Dfile.encoding=UTF-8 \n", "");
       }
-
-      
       }
     );
 
