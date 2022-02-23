@@ -347,8 +347,9 @@ document.getElementById('editor').addEventListener('keydown', event => {
     observer.observe(editor, config);
   }
   if (event.key === 'Backspace') {
-    event.preventDefault();
+    observer.disconnect();
     populateLineNumbers();
+    observer.observe(editor, config);
   }
 })
 
@@ -457,7 +458,7 @@ function shouldIgnoreError(obj) {
         document.getElementById("explanationText").textContent = obj.hasException;
       } else {
 
-        if (obj.status === "errors") {
+        if (obj.status === "errors" && !shouldIgnoreError(obj)) {
           let positionString = "In class " + obj.containingClass;
           let explanationString = obj.explanation;
           let suggestionString = obj.suggestion;
