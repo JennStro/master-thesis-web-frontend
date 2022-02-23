@@ -190,7 +190,7 @@ document.getElementById("editor").textContent = document.getElementById(taskName
 
 let symbols = ["{", "}", "(", ")", "[", "]"];
 let spaceAndNewLine = [" ", "\n"]
-let keywords = ["if", "new", "while", "class", "for", "else"];
+let keywords = ["if", "new", "while", "class", "for", "else", "return"];
 let comment = "//";
 let modifiers = ["public", "private", "protected", "static"]
 let types = ["int", "boolean", "double", "String", "ArrayList", "void"]
@@ -334,6 +334,7 @@ document.getElementById('editor').addEventListener('keydown', event => {
   }
   if (event.key === 'Backspace') {
     observer.disconnect();
+
     populateLineNumbers();
     observer.observe(editor, config);
   }
