@@ -406,12 +406,9 @@ document.getElementById('editor').addEventListener('keydown', event => {
      
       const obj = JSON.parse(JSON.stringify(json));
 
-      console.log("ONKB"+obj);
-      console.log("obj:"+obj.containingClass);
       if (obj.hasException || obj.status == "errors") {
         document.getElementById("explanationText").textContent = "Solved task: No";
       } else {
-          console.log("OUT"+ outputFromRunnedFile);
         if (outputFromRunnedFile.includes("This list should be empty, but is")) {
           document.getElementById("explanationText").textContent = "Solved task: No";
         } else {
