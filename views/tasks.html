@@ -380,12 +380,12 @@ function highlightSyntax() {
     if (types.includes(token)) {
       idNumber += 1;
       identifier = identifier + idNumber;
-      return `<span style="color:rgba(222, 200, 255,0.7); id=${identifier}">${token}</span>`;
+      return `<span style="color:rgba(222, 200, 255,0.7); ">${token}</span>`;
     }
     if (operators.includes(token)) {
       idNumber += 1;
       identifier = identifier + idNumber;
-      return `<span style="color:rgba(255, 235, 182,0.7); id=${identifier}">${token}</span>`;
+      return `<span style="color:rgba(255, 235, 182,0.7);">${token}</span>`;
     }
     return token;
   }); 
@@ -424,6 +424,7 @@ observer.observe(editor, config);
 
 let sel = window.getSelection();
 let range;
+let lastNode;
 if (sel && sel.rangeCount > 0) {
     range = sel.getRangeAt(0); 
 }
@@ -461,14 +462,20 @@ document.getElementById('editor').addEventListener('keydown', event => {
     console.log(newRange);
     console.log(newRange.startContainer.previousSibling);
     if (newRange.startContainer.nodeName != "DIV") {
-        range = newRange;
-        range.setStart(newRange.startContainer.previousSibling, 0);
-        range.setEnd(newRange.startContainer.previousSibling, 1);
-        console.log("ID")
-        console.log(range.startContainer.id);
+      if (range) {
+        range.setStart(range.startContainer.previousSibling, 0);
+        range.setEnd(range.startContainer.previousSibling, range.startContainer.previousSibling.length);
+        console.log("New ranfe")
+        console.log(range);}
+        lastNode = range.startContainer.previousSibling;
+    } 
+    if (range) {
+      window.getSelection().setPosition(range.endContainer, range.endContainer.length);
     }
-    //window.getSelection().setPosition(range.endContainer, range.endContainer.length);
-    window.getSelection().setPosition(range.endContainer, 1);
+
+    if (lastNode) {
+      window.getSelection().setPosition(lastNode, 1);
+    }
     
     observer.observe(editor, config);
   }
