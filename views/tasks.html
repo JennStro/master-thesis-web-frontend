@@ -422,15 +422,8 @@ document.getElementById('editor').addEventListener('keydown', event => {
     observer.observe(editor, config);
   }
   if (event.key === 'Backspace') {
-    var sel = window.getSelection();
     observer.disconnect();
-    let range = selection.getRangeAt(0);
-    range.deleteContents();
-    let node = document.createTextNode("");
-    range.insertNode(node);
-
     populateLineNumbers();
-
     observer.observe(editor, config);
   }
 })
