@@ -412,13 +412,6 @@ if (sel && sel.rangeCount > 0) {
     range = sel.getRangeAt(0); 
 }
 
-function storeRange() {
-  sel = window.getSelection();
-  if (sel && sel.rangeCount > 0) {
-    range = sel.getRangeAt(0); 
-  }
-}
-
 document.getElementById('editor').addEventListener('keydown', event => {
   if (event.key === 'Enter') {
     observer.disconnect();
@@ -445,8 +438,14 @@ document.getElementById('editor').addEventListener('keydown', event => {
     document.getElementById("editor-content").value = document.getElementById("editor").textContent;
     
     console.log(range);
-    if (range.startContainer.nodeName != "DIV") {
-      storeRange();
+
+    let sel = window.getSelection();
+    let newRange = sel.getRangeAt(0);
+    console.log(newRange.startContainer.nodeName);
+    console.log(newRange);
+    console.log(newRange.startContainer.previousSibling);
+    if (newRange.startContainer.nodeName != "DIV") {
+        range = newRange;
     }
     //window.getSelection().setPosition(range.endContainer, range.endContainer.length);
     window.getSelection().setPosition(range.endContainer, range.endOffset);
