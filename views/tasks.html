@@ -353,15 +353,6 @@ document.getElementById('editor').addEventListener('keydown', event => {
   }
 })
 
-
-  const ignoredErrors = new Map([
-      ["TaskOne", ["master.thesis.backend.errors.MissingEqualsMethodError"] ], 
-      ["TaskTwo", ["master.thesis.backend.errors.MissingEqualsMethodError"] ],
-      ["TaskThree", ["master.thesis.backend.errors.MissingEqualsMethodError"] ],
-      ["TaskFour", ["master.thesis.backend.errors.MissingEqualsMethodError"] ],
-      ["TaskFive", ["master.thesis.backend.errors.MissingEqualsMethodError"] ]
-    ]);
-
   async function postInputData() {
 
     observer.disconnect();
@@ -390,8 +381,8 @@ document.getElementById('editor').addEventListener('keydown', event => {
       console.log(obj);
       document.getElementById("positionText").textContent = "Out: " + obj.out;
 
-      if (obj.error && obj.error != "Picked up JAVA_TOOL_OPTIONS: -XX:+UseContainerSupport -Xmx300m -Xss512k -XX:CICompilerCount=2 -Dfile.encoding=UTF-8 \n") {
-        document.getElementById("suggestionText").textContent = "Error: " + obj.error.replace("Picked up JAVA_TOOL_OPTIONS: -XX:+UseContainerSupport -Xmx300m -Xss512k -XX:CICompilerCount=2 -Dfile.encoding=UTF-8 \n", "");
+      if (obj.error &&obj.error != "") {
+        document.getElementById("suggestionText").textContent = "Error: " + obj.error;
       }
       }
     );
@@ -413,23 +404,13 @@ document.getElementById('editor').addEventListener('keydown', event => {
 
       console.log(obj);
 
-      if (obj.hasException || obj.status == "errors" && !shouldIgnoreError(obj)) {
+      if (obj.hasException || obj.status == "errors") {
         document.getElementById("explanationText").textContent = "Solved task: No";
       } else {
         document.getElementById("explanationText").textContent = "Solved task: Yes";
       }
     }
     );
-}
-
-function shouldIgnoreError(obj) {
-    if (!ignoredErrors.has(obj.containingClass)) {
-        return false;
-    }
-    if (ignoredErrors.has(obj.containingClass) && ignoredErrors.get(obj.containingClass).includes(obj.id)) {
-        return true;
-    }
-    return false;
 }
 
   async function analyseCode() {
@@ -458,7 +439,7 @@ function shouldIgnoreError(obj) {
         document.getElementById("explanationText").textContent = obj.hasException;
       } else {
 
-        if (obj.status === "errors" && !shouldIgnoreError(obj)) {
+        if (obj.status === "errors") {
           let positionString = "In class " + obj.containingClass;
           let explanationString = obj.explanation;
           let suggestionString = obj.suggestion;
