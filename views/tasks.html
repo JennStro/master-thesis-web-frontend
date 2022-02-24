@@ -34,6 +34,9 @@
     
   </div>
 
+  <textarea hidden id="editor-content"></textarea>
+
+
     <textarea hidden id="taskOneText">
 public class TaskOne {
 
@@ -262,6 +265,7 @@ let TASK_FIVE_NUMBER = 4;
 let outputFromRunnedFile = "";
 
 document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
+document.getElementById("editor-content").textContent = document.getElementById("editor").textContent;
 
 let symbols = ["{", "}", "(", ")", "[", "]"];
 let spaceAndNewLine = [" ", "\n"]
@@ -370,6 +374,7 @@ function highlightSyntax() {
     return token;
   }); 
   document.getElementById("editor").innerHTML = coloredTokens.join("");
+  document.getElementById("editor-content").value = document.getElementById("editor").textContent;
 }
 
 function populateLineNumbers() {
@@ -424,6 +429,12 @@ document.getElementById('editor').addEventListener('keydown', event => {
   if (event.key === 'Backspace') {
     observer.disconnect();
     populateLineNumbers();
+    document.getElementById("editor-content").value = document.getElementById("editor").textContent;
+    let sel = window.getSelection();
+    let range = sel.getRangeAt(0);
+    console.log(range);
+    if (range.commonAncestorContainer.nodeName == "DIV") {window.getSelection().setPosition(range.commonAncestorContainer, range.endContainer.length);}
+    
     observer.observe(editor, config);
   }
 })
