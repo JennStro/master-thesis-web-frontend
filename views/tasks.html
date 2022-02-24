@@ -14,7 +14,7 @@
   a:visited {color:white; font-family: sans-serif;}
   a:active {color:gray; font-family: sans-serif;}
   ul {color:white; font-family: sans-serif}
-  .editor{width: fit-content; height: fit-content; min-width: 1000px; min-height: 50px; white-space: pre; background-color: black; color:aliceblue; font-family: Verdana, sans-serif;; border: 2px solid gray;}
+  .editor{width: fit-content; height: fit-content; min-width: 1000px; min-height: 50px; white-space: pre; background-color: black; color:aliceblue; font-family: Verdana, sans-serif;; border: 2px solid gray; display: inline-block;}
   .console{width: 1500px; height: fit-content; white-space: pre; background-color: black; color:aliceblue; font-family: Verdana, sans-serif; border: 2px solid gray;}
   .editorLines{width: fit-content; height: fit-content; white-space: pre; background-color: black; color:grey; font-family: Verdana, sans-serif; border: 2px solid gray;}
   .flex-container {
@@ -422,8 +422,15 @@ document.getElementById('editor').addEventListener('keydown', event => {
     observer.observe(editor, config);
   }
   if (event.key === 'Backspace') {
+    var sel = window.getSelection();
     observer.disconnect();
+    let range = selection.getRangeAt(0);
+    range.deleteContents();
+    let node = document.createTextNode("");
+    range.insertNode(node);
+
     populateLineNumbers();
+
     observer.observe(editor, config);
   }
 })
