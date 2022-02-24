@@ -406,6 +406,19 @@ const callback = function(mutationsList, observer) {
 const observer = new MutationObserver(callback);
 observer.observe(editor, config);
 
+let sel = window.getSelection();
+let range;
+if (sel && sel.rangeCount > 0) {
+    range = sel.getRangeAt(0); 
+}
+
+function storeRange() {
+  sel = window.getSelection();
+  if (sel && sel.rangeCount > 0) {
+    range = sel.getRangeAt(0); 
+  }
+}
+
 document.getElementById('editor').addEventListener('keydown', event => {
   if (event.key === 'Enter') {
     observer.disconnect();
@@ -430,10 +443,13 @@ document.getElementById('editor').addEventListener('keydown', event => {
     observer.disconnect();
     populateLineNumbers();
     document.getElementById("editor-content").value = document.getElementById("editor").textContent;
-    let sel = window.getSelection();
-    let range = sel.getRangeAt(0);
+    
     console.log(range);
-    if (range.commonAncestorContainer.nodeName == "DIV") {window.getSelection().setPosition(range.commonAncestorContainer, range.endContainer.length);}
+    if (range.startContainer.nodeName != "DIV") {
+      storeRange();
+    }
+    //window.getSelection().setPosition(range.endContainer, range.endContainer.length);
+    window.getSelection().setPosition(range.endContainer, range.endOffset);
     
     observer.observe(editor, config);
   }
