@@ -447,10 +447,11 @@ document.getElementById('editor').addEventListener('keydown', event => {
     if (newRange.startContainer.nodeName != "DIV") {
         range = newRange;
         range.setStart(newRange.startContainer.previousSibling, 0);
+        range.setEnd(newRange.startContainer.previousSibling, newRange.startContainer.previousSibling.length);
         console.log(range);
     }
     //window.getSelection().setPosition(range.endContainer, range.endContainer.length);
-    window.getSelection().setPosition(newRange.startContainer.previousSibling, newRange.endOffset);
+    window.getSelection().setPosition(newRange.startContainer.previousSibling, 2);
     
     observer.observe(editor, config);
   }
