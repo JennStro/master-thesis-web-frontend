@@ -28,9 +28,9 @@
 
   <div class="flex-container">
 
-    <div class="editorLines" id="editorLines" (paste)="pasteInEditor($event)"></div>
+    <div class="editorLines" id="editorLines" ></div>
 
-    <div class="editor" contenteditable="true" spellcheck="false" autocomplete='off' id="editor"></div>
+    <div class="editor" contenteditable="true" spellcheck="false" autocomplete='off' id="editor" (paste)="pasteInEditor($event)"></div>
     
   </div>
 
