@@ -402,7 +402,6 @@ const observer = new MutationObserver(callback);
 observer.observe(editor, config);
 
 document.getElementById('editor').addEventListener('keydown', event => {
-  
   if (event.key === 'Enter') {
     observer.disconnect();
     document.execCommand('insertHTML', false, '\n');
@@ -423,25 +422,15 @@ document.getElementById('editor').addEventListener('keydown', event => {
     observer.observe(editor, config);
   }
   if (event.key === 'Backspace') {
-    
+    var sel = window.getSelection();
     observer.disconnect();
-    let selection = window.getSelection();
     let range = selection.getRangeAt(0);
-    console.log(range);
-    console.log("CONTAINER"+ range.startContainer.nodeName)
-    console.log("common ancestor: " + range.commonAncestorContainer.nod)
-    if (range.startContainer.nodeName == "SPAN" || range.startContainer.nodeName == "#text") {
-      event.preventDefault();
-      range.setStart(range.startContainer,0);
-      if (range.endOffset == 0) {
-        range.setStart(range.startContainer.previousSibling, 0);
-      }
-      console.log(range);
-      range.deleteContents();
-      //let node = document.createTextNode("");
-      //range.insertNode(node);
-    }
+    range.deleteContents();
+    let node = document.createTextNode("");
+    range.insertNode(node);
+
     populateLineNumbers();
+
     observer.observe(editor, config);
   }
 })
