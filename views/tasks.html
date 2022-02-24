@@ -359,6 +359,9 @@ document.getElementById('editor').addEventListener('keydown', event => {
     highlightSyntax();
     observer.observe(editor, config);
 
+    let outputFromRunnedFile = "";
+    let containingClass = "";
+
     const data = document.getElementById("editor").textContent;
     clearAllFields();
     document.getElementById("positionText").textContent = "Running code....";
@@ -380,6 +383,7 @@ document.getElementById('editor').addEventListener('keydown', event => {
       const obj = JSON.parse(JSON.stringify(json));
       console.log(obj);
       document.getElementById("positionText").textContent = "Out: " + obj.out;
+      outputFromRunnedFile = obj.out;
 
       if (obj.error &&obj.error != "") {
         document.getElementById("suggestionText").textContent = "Error: " + obj.error;
@@ -402,12 +406,17 @@ document.getElementById('editor').addEventListener('keydown', event => {
      
       const obj = JSON.parse(JSON.stringify(json));
 
-      console.log(obj);
-
+      console.log("ONKB"+obj);
+      console.log("obj:"+obj.containingClass);
       if (obj.hasException || obj.status == "errors") {
         document.getElementById("explanationText").textContent = "Solved task: No";
       } else {
-        document.getElementById("explanationText").textContent = "Solved task: Yes";
+          console.log("OUT"+ outputFromRunnedFile);
+        if (outputFromRunnedFile.includes("This list should be empty, but is")) {
+          document.getElementById("explanationText").textContent = "Solved task: No";
+        } else {
+          document.getElementById("explanationText").textContent = "Solved task: Yes";
+        }
       }
     }
     );
