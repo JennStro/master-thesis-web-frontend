@@ -349,27 +349,43 @@ function pasteInEditor(event) {
 
 function highlightSyntax() {
   let tokens = tokenizer();
+  let identifier = "span-";
+  let idNumber = 0;
   let coloredTokens = tokens.map(token => {
     if (keywords.includes(token)) {
-      return  `<span style="color:rgba(138, 199, 255,0.7);">${token}</span>`;
+      idNumber += 1;
+      identifier = identifier + idNumber;
+      return  `<span style="color:rgba(138, 199, 255,0.7); id=${identifier}">${token}</span>`;
     };
     if (symbols.includes(token)) {
-      return  `<span style="color:rgba(138, 237, 255,0.7);">${token}</span>`;
+      idNumber += 1;
+      identifier = identifier + idNumber;
+      return  `<span style="color:rgba(138, 237, 255,0.7); id=${identifier}">${token}</span>`;
     };
     if (token.includes(comment)) {
-      return  `<span style="color:rgba(255, 99, 71,0.7);">${token}</span>`;
+      idNumber += 1;
+      identifier = identifier + idNumber;
+      return  `<span style="color:rgba(255, 99, 71,0.7); id=${identifier}">${token}</span>`;
     }
     if (token.includes(string)) {
-      return  `<span style="color:rgba(222, 255, 213,0.7);">${token}</span>`;
+      idNumber += 1;
+      identifier = identifier + idNumber;
+      return  `<span style="color:rgba(222, 255, 213,0.7); id=${identifier}">${token}</span>`;
     }
     if (modifiers.includes(token)) {
-      return `<span style="color:rgba(138, 199, 255,0.7);">${token}</span>`;
+      idNumber += 1;
+      identifier = identifier + idNumber;
+      return `<span style="color:rgba(138, 199, 255,0.7); id=${identifier}">${token}</span>`;
     }
     if (types.includes(token)) {
-      return `<span style="color:rgba(222, 200, 255,0.7);">${token}</span>`;
+      idNumber += 1;
+      identifier = identifier + idNumber;
+      return `<span style="color:rgba(222, 200, 255,0.7); id=${identifier}">${token}</span>`;
     }
     if (operators.includes(token)) {
-      return `<span style="color:rgba(255, 235, 182,0.7);">${token}</span>`;
+      idNumber += 1;
+      identifier = identifier + idNumber;
+      return `<span style="color:rgba(255, 235, 182,0.7); id=${identifier}">${token}</span>`;
     }
     return token;
   }); 
@@ -447,11 +463,12 @@ document.getElementById('editor').addEventListener('keydown', event => {
     if (newRange.startContainer.nodeName != "DIV") {
         range = newRange;
         range.setStart(newRange.startContainer.previousSibling, 0);
-        range.setEnd(newRange.startContainer.previousSibling, newRange.startContainer.previousSibling.length);
-        console.log(range);
+        range.setEnd(newRange.startContainer.previousSibling, 1);
+        console.log("ID")
+        console.log(range.startContainer.id);
     }
     //window.getSelection().setPosition(range.endContainer, range.endContainer.length);
-    window.getSelection().setPosition(newRange.startContainer.previousSibling, 2);
+    window.getSelection().setPosition(range.endContainer, 1);
     
     observer.observe(editor, config);
   }
