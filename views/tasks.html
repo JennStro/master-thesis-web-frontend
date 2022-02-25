@@ -266,6 +266,19 @@ let outputFromRunnedFile = "";
 
 document.getElementById("editor").value = document.getElementById(taskNames[taskNumber]).value;
 
+function pasteInEditor(event) {
+  event.preventDefault();
+  const clipboardData = event.clipboardData;
+  const pastedText = clipboardData.getData('text');
+  console.log(pastedText);
+  observer.disconnect();
+  window.document.execCommand('insertText', false, pastedText);
+  populateLineNumbers();
+  observer.observe(editor, config);
+}
+
+document.getElementById("editor").onpaste = pasteInEditor;
+
 let symbols = ["{", "}", "(", ")", "[", "]"];
 let spaceAndNewLine = [" ", "\n"]
 let keywords = ["if", "new", "while", "class", "for", "else", "return"];
@@ -336,14 +349,6 @@ function tokenizer() {
   tokens.push(word);
   console.log("TOKENS "+tokens);
   return tokens;
-}
-
-function pasteInEditor(event) {
-  event.preventDefault();
-  const clipboardData = event.clipboardData;
-  const pastedText = clipboardData.getData('text');
-  console.log(pastedText);
-  window.document.execCommand('insertText', false, pastedText);
 }
 
 function highlightSyntax() {
