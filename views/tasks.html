@@ -14,9 +14,9 @@
   a:visited {color:white; font-family: sans-serif;}
   a:active {color:gray; font-family: sans-serif;}
   ul {color:white; font-family: sans-serif}
-  .editor{width: fit-content; height: fit-content; min-width: 1000px; min-height: 50px; white-space: pre; background-color: black; color:aliceblue; font-family: Verdana, sans-serif;; border: 2px solid gray; display: inline-block;}
-  .console{width: 1500px; height: fit-content; white-space: pre; background-color: black; color:aliceblue; font-family: Verdana, sans-serif; border: 2px solid gray;}
-  .editorLines{width: fit-content; height: fit-content; white-space: pre; background-color: black; color:grey; font-family: Verdana, sans-serif; border: 2px solid gray;}
+  .editor{min-width: 1500px; min-height: 50px; background-color: black; color:aliceblue; font-family: Verdana, sans-serif;; border: 2px solid gray; display: inline-block; font-size: 16px;}
+  .console{width: 1500px; height: fit-content; white-space: pre; background-color: black; color:aliceblue; font-family: Verdana, sans-serif; border: 2px solid gray; font-size: 16px;}
+  .editorLines{width: fit-content; height: fit-content; white-space: pre; background-color: black; color:grey; font-family: Verdana, sans-serif; border: 2px solid gray; font-size: 16px;}
   .flex-container {
     display: flex;
 }
@@ -30,7 +30,7 @@
 
     <div class="editorLines" id="editorLines" ></div>
 
-    <div class="editor" contenteditable="true" spellcheck="false" autocomplete='off' id="editor" (paste)="pasteInEditor($event)"></div>
+    <textarea class="editor" spellcheck="false" autocomplete='off' id="editor"></textarea>
     
   </div>
 
@@ -404,19 +404,23 @@ function populateLineNumbers() {
     for (let i = 1; i < linenumbers; i++) {
       document.getElementById("editorLines").textContent +=i + "\n";
     }
+
+    var heightOfLineNumbers = document.getElementById('editorLines').clientHeight;
+    document.getElementById("editor").setAttribute("style", `height:${heightOfLineNumbers}px`);
+
+    var widthOfLineNumbers = document.getElementById('editorLines').clientWidth;
+    let editorWidth = document.getElementById('console').clientWidth; - widthOfLineNumbers;
+    document.getElementById("editor").setAttribute("style", `width:${editorWidth}px`);
   }
 
-populateLineNumbers();
-highlightSyntax();
+ 
 
+populateLineNumbers();
 
 const config = {childList: true, subtree: true, CharacterData: true, attributes: true };
 const callback = function(mutationsList, observer) {
     for(const mutation of mutationsList) {
       populateLineNumbers();
-      observer.disconnect();
-      highlightSyntax();
-      observer.observe(editor, config);
   }
 };
 const observer = new MutationObserver(callback);
@@ -432,60 +436,27 @@ if (sel && sel.rangeCount > 0) {
 document.getElementById('editor').addEventListener('keydown', event => {
   if (event.key === 'Enter') {
     observer.disconnect();
-    document.execCommand('insertHTML', false, '\n');
     populateLineNumbers();
-    event.preventDefault()
     observer.observe(editor, config);
   }
   if (event.key === 'Tab') {
     observer.disconnect();
-    document.execCommand('insertHTML', false, '\t');
-    event.preventDefault()
+    populateLineNumbers();
     observer.observe(editor, config);
   }
   if (event.key === 'Space') {
     observer.disconnect();
-    document.execCommand('insertHTML', false, '\s');
-    event.preventDefault()
+    populateLineNumbers();
     observer.observe(editor, config);
   }
   if (event.key === 'Backspace') {
     observer.disconnect();
     populateLineNumbers();
-    document.getElementById("editor-content").value = document.getElementById("editor").textContent;
-    
-    console.log(range);
-
-    let sel = window.getSelection();
-    let newRange = sel.getRangeAt(0);
-    console.log(newRange.startContainer.nodeName);
-    console.log(newRange);
-    console.log(newRange.startContainer.previousSibling);
-    if (newRange.startContainer.nodeName != "DIV") {
-      if (range) {
-        range.setStart(range.startContainer.previousSibling, 0);
-        range.setEnd(range.startContainer.previousSibling, range.startContainer.previousSibling.length);
-        console.log("New ranfe")
-        console.log(range);}
-        lastNode = range.startContainer.previousSibling;
-    } 
-    if (range) {
-      window.getSelection().setPosition(range.endContainer, range.endContainer.length);
-    }
-
-    if (lastNode) {
-      window.getSelection().setPosition(lastNode, 1);
-    }
-    
     observer.observe(editor, config);
   }
 })
 
   async function postInputData() {
-
-    observer.disconnect();
-    highlightSyntax();
-    observer.observe(editor, config);
 
     const data = document.getElementById("editor").textContent;
     clearAllFields();
@@ -638,11 +609,11 @@ function haveSolvedTask(outputFromRunnedFile, taskNumber) {
     if (taskNumber >= 5) {
       taskNumber = 4;
     } 
+    observer.disconnect();
     document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
     populateLineNumbers();
-    observer.disconnect();
-    highlightSyntax();
     observer.observe(editor, config);
+   
   }
 
   function previousTask() {
@@ -655,10 +626,10 @@ function haveSolvedTask(outputFromRunnedFile, taskNumber) {
       taskNumber = 0
     }
 
+    
+    observer.disconnect();
     document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
     populateLineNumbers();
-    observer.disconnect();
-    highlightSyntax();
     observer.observe(editor, config);
   }
  
