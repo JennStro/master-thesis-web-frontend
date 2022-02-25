@@ -264,8 +264,7 @@ let TASK_FOUR_NUMBER = 3;
 let TASK_FIVE_NUMBER = 4;
 let outputFromRunnedFile = "";
 
-document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
-document.getElementById("editor-content").textContent = document.getElementById("editor").textContent;
+document.getElementById("editor").value = document.getElementById(taskNames[taskNumber]).value;
 
 let symbols = ["{", "}", "(", ")", "[", "]"];
 let spaceAndNewLine = [" ", "\n"]
@@ -277,7 +276,7 @@ let string = "\""
 let operators = ["+", "-", "++", "--", "&", "|", "&&", "||", "=", "=="]
 
 function tokenizer() {
-  let editorContent = document.getElementById("editor").textContent; 
+  let editorContent = document.getElementById("editor").value; 
 
   let tokens = []
   let word = "";
@@ -390,11 +389,10 @@ function highlightSyntax() {
     return token;
   }); 
   document.getElementById("editor").innerHTML = coloredTokens.join("");
-  document.getElementById("editor-content").value = document.getElementById("editor").textContent;
 }
 
 function populateLineNumbers() {
-    let editorContent = document.getElementById("editor").textContent;
+    let editorContent = document.getElementById("editor").value;
     console.log(editorContent);
     let lines = editorContent.split("\n");
     let linenumbers = lines.length;
@@ -441,6 +439,8 @@ document.getElementById('editor').addEventListener('keydown', event => {
   }
   if (event.key === 'Tab') {
     observer.disconnect();
+    event.preventDefault();
+    window.document.execCommand('insertText', false, "\t");
     populateLineNumbers();
     observer.observe(editor, config);
   }
@@ -458,7 +458,7 @@ document.getElementById('editor').addEventListener('keydown', event => {
 
   async function postInputData() {
 
-    const data = document.getElementById("editor").textContent;
+    const data = document.getElementById("editor").value;
     clearAllFields();
     document.getElementById("positionText").textContent = "Running code....";
     await fetch('https://master-thesis-web-backend-prod.herokuapp.com/runjava', {
@@ -534,9 +534,9 @@ function haveSolvedTask(outputFromRunnedFile, taskNumber) {
   async function analyseCode() {
     let data;
     if (!haveSolvedTask(outputFromRunnedFile, taskNumber)) {
-      data = document.getElementById(taskNames_reset[taskNumber]).textContent;
+      data = document.getElementById(taskNames_reset[taskNumber]).value;
     } else {
-      data = document.getElementById("editor").textContent;
+      data = document.getElementById("editor").value;
     }
 
     console.log("DATA:"+data);
@@ -603,14 +603,14 @@ function haveSolvedTask(outputFromRunnedFile, taskNumber) {
     clearAllFields();
     console.log(taskNumber)
 
-    document.getElementById(taskNames[taskNumber]).value = document.getElementById("editor").textContent;
+    document.getElementById(taskNames[taskNumber]).value = document.getElementById("editor").value;
 
     taskNumber += 1;
     if (taskNumber >= 5) {
       taskNumber = 4;
     } 
     observer.disconnect();
-    document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
+    document.getElementById("editor").value = document.getElementById(taskNames[taskNumber]).value;
     populateLineNumbers();
     observer.observe(editor, config);
    
@@ -619,7 +619,7 @@ function haveSolvedTask(outputFromRunnedFile, taskNumber) {
   function previousTask() {
     clearAllFields();
     console.log(taskNumber)
-    document.getElementById(taskNames[taskNumber]).value = document.getElementById("editor").textContent;
+    document.getElementById(taskNames[taskNumber]).value = document.getElementById("editor").value;
 
     taskNumber -= 1;
     if (taskNumber <= -1) {
@@ -628,7 +628,7 @@ function haveSolvedTask(outputFromRunnedFile, taskNumber) {
 
     
     observer.disconnect();
-    document.getElementById("editor").textContent = document.getElementById(taskNames[taskNumber]).value;
+    document.getElementById("editor").value = document.getElementById(taskNames[taskNumber]).value;
     populateLineNumbers();
     observer.observe(editor, config);
   }
