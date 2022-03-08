@@ -41,7 +41,7 @@
     document.getElementById("tipText").textContent = "";
     document.getElementById("urllink").textContent = "";
     document.getElementById("urllink").href = "#";
-    await fetch('https://master-thesis-web-backend-prod.herokuapp.com/analyse', {
+    await fetch('https://master-thesis-web-backend-prod.herokuapp.com/analyse/all', {
       method: 'POST',
       headers: {
         'Content-Type': 'raw',
@@ -69,18 +69,19 @@
         document.getElementById("tipText").textContent = "";
       } else {
 
-        if (obj.status === "errors") {
-          let positionString = "In class " + obj.containingClass;
-          let explanationString = obj.explanation;
-          let suggestionString = obj.suggestion;
-          if (obj.lineNumber !== -1) {
-            positionString += ", on line number " + obj.lineNumber;
+        if (obj.errors) {
+          let firstError = obj.errors[0];
+          let positionString = "In class " + firstError.containingClass;
+          let explanationString = firstError.explanation;
+          let suggestionString = firstError.suggestion;
+          if (firstError.lineNumber) {
+            positionString += ", on line number " + firstError.lineNumber;
           }
           document.getElementById("positionText").textContent = positionString;
           document.getElementById("explanationText").textContent = explanationString;
           document.getElementById("suggestionText").textContent = "You should try " +suggestionString;
-          if (obj.moreInfoLink) {
-            let linkString = obj.moreInfoLink;
+          if (firstError.moreInfoLink) {
+            let linkString = firstError.moreInfoLink;
             document.getElementById("linkText").textContent = "More info? Check out:";
             document.getElementById("urllink").textContent = linkString;
             let indexOfSlash = linkString.lastIndexOf("/");
@@ -88,8 +89,8 @@
             console.log(file);
             document.getElementById("urllink").href = file;
           }
-          if (obj.tip) {
-            let tip = obj.tip;
+          if (firstError.tip) {
+            let tip = firstError.tip;
             document.getElementById("tipText").textContent = tip;
           }
 
