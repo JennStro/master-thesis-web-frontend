@@ -493,7 +493,7 @@ document.getElementById('editor').addEventListener('keydown', event => {
       }
     );
 
-    await fetch('https://master-thesis-web-backend-prod.herokuapp.com/analyse', {
+    await fetch('https://master-thesis-web-backend-prod.herokuapp.com/analyse/all', {
       method: 'POST',
       headers: {
         'Content-Type': 'raw',
@@ -508,7 +508,13 @@ document.getElementById('editor').addEventListener('keydown', event => {
      
       const obj = JSON.parse(JSON.stringify(json));
 
-      if (obj.hasException || obj.status == "errors") {
+      let ignoreEqualsMethodClassNames = ["TaskOne", "TaskTwo", "TaskThree", "TaskFour", "TaskFive"];
+      
+      const cleanedErrors = obj.errors.filter(error => 
+      !ignoreEqualsMethodClassNames.includes(error.containingClass)
+      || error.type !== "master.thesis.backend.errors.MissingEqualsMethodError");
+
+      if (obj.hasException || cleanedErrors.length > 0) {
         document.getElementById("explanationText").textContent = "Solved task: No";
       } else {
         if (haveSolvedTask(outputFromRunnedFile, taskNumber)) {
@@ -548,7 +554,7 @@ function haveSolvedTask(outputFromRunnedFile, taskNumber) {
     
     clearAllFields();
     document.getElementById("positionText").textContent = "Analysing code....";
-    await fetch('https://master-thesis-web-backend-prod.herokuapp.com/analyse', {
+    await fetch('https://master-thesis-web-backend-prod.herokuapp.com/analyse/all', {
       method: 'POST',
       headers: {
         'Content-Type': 'raw',
@@ -561,6 +567,8 @@ function haveSolvedTask(outputFromRunnedFile, taskNumber) {
     ).then( json =>
     {
       clearAllFields();
+
+      console.log(json);
      
       const obj = JSON.parse(JSON.stringify(json));
 
@@ -570,28 +578,42 @@ function haveSolvedTask(outputFromRunnedFile, taskNumber) {
         document.getElementById("explanationText").textContent = obj.hasException;
       } else {
 
-        if (obj.status === "errors") {
-          let positionString = "In class " + obj.containingClass;
-          let explanationString = obj.explanation;
-          let suggestionString = obj.suggestion;
-          if (obj.lineNumber !== -1) {
-            positionString += ", on line number " + obj.lineNumber;
-          }
-          document.getElementById("positionText").textContent = positionString;
-          document.getElementById("explanationText").textContent = explanationString;
-          document.getElementById("suggestionText").textContent = "You should try " +suggestionString;
-          if (obj.moreInfoLink) {
-            let linkString = obj.moreInfoLink;
-            document.getElementById("linkText").textContent = "More info? Check out:";
-            document.getElementById("urllink").textContent = linkString;
-            let indexOfSlash = linkString.lastIndexOf("/");
-            let file = linkString.substring(indexOfSlash);
-            console.log(file);
-            document.getElementById("urllink").href = file;
-          }
-          if (obj.tip) {
-            let tip = obj.tip;
-            document.getElementById("tipText").textContent = tip;
+        if (obj.errors) {
+          let ignoreEqualsMethodClassNames = ["TaskOne", "TaskTwo", "TaskThree", "TaskFour", "TaskFive"];
+      
+          const cleanedErrors = obj.errors.filter(error => 
+          !ignoreEqualsMethodClassNames.includes(error.containingClass)
+          || error.type !== "master.thesis.backend.errors.MissingEqualsMethodError");
+
+          if (cleanedErrors.length > 0) {
+            const firstError = cleanedErrors[0];
+            console.log(firstError);
+            let positionString = "In class " + firstError.containingClass;
+            let explanationString = firstError.explanation;
+            let suggestionString = firstError.suggestion;
+            
+            document.getElementById("explanationText").textContent = explanationString;
+            document.getElementById("suggestionText").textContent = "You should try " +suggestionString;
+            if (firstError.lineNumber) {
+              positionString += ", on line number " + firstError.lineNumber;
+            }
+            document.getElementById("positionText").textContent = positionString;
+            if (firstError.moreInfoLink) {
+              let linkString = firstError.moreInfoLink;
+              document.getElementById("linkText").textContent = "More info? Check out:";
+              document.getElementById("urllink").textContent = linkString;
+              let indexOfSlash = linkString.lastIndexOf("/");
+              let file = linkString.substring(indexOfSlash);
+              console.log(file);
+              document.getElementById("urllink").href = file;
+            }
+            if (firstError.tip) {
+              let tip = obj.tip;
+              document.getElementById("tipText").textContent = tip;
+            }
+          } else {
+          clearAllFields();
+          document.getElementById("positionText").textContent = "Found no errors!";
           }
 
         } else {
