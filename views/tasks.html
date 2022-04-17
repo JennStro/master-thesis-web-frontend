@@ -429,13 +429,6 @@ const callback = function(mutationsList, observer) {
 const observer = new MutationObserver(callback);
 observer.observe(editor, config);
 
-let sel = window.getSelection();
-let range;
-let lastNode;
-if (sel && sel.rangeCount > 0) {
-    range = sel.getRangeAt(0); 
-}
-
 document.getElementById('editor').addEventListener('keydown', event => {
   if (event.key === 'Enter') {
     observer.disconnect();
