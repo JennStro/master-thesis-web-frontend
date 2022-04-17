@@ -454,7 +454,7 @@ document.getElementById('editor').addEventListener('keydown', event => {
   }
 })
 
-  async function runJavaCode() {
+  async function checkTask() {
 
     const data = document.getElementById("editor").value;
     clearAllFields();
@@ -653,7 +653,7 @@ function haveSolvedTask(outputFromRunnedFile, taskNumber) {
     observer.observe(editor, config);
   }
  
-  document.getElementById('buttonInput').addEventListener('click', runJavaCode, false);
+  document.getElementById('buttonInput').addEventListener('click', checkTask, false);
   document.getElementById('buttonGetTips').addEventListener('click', analyseCode, false);
   document.getElementById('buttonNextTask').addEventListener('click', nextTask, false);
   document.getElementById('buttonPreviousTask').addEventListener('click', previousTask, false);
