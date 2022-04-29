@@ -368,7 +368,7 @@ document.getElementById('editor').addEventListener('keydown', event => {
       }
     );
 
-    await fetch('https://master-thesis-web-backend-prod.herokuapp.com/analyse/all', {
+    await fetch('https://master-thesis-web-backend-prod.herokuapp.com/analyse', {
       method: 'POST',
       headers: {
         'Content-Type': 'raw',
@@ -429,7 +429,7 @@ function haveSolvedTask(outputFromRunnedFile, taskNumber) {
     
     clearAllFields();
     document.getElementById("positionText").textContent = "Analysing code....";
-    await fetch('https://master-thesis-web-backend-prod.herokuapp.com/analyse/all', {
+    await fetch('https://master-thesis-web-backend-prod.herokuapp.com/analyse', {
       method: 'POST',
       headers: {
         'Content-Type': 'raw',
